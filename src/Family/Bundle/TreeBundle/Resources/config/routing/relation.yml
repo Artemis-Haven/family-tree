@@ -1,0 +1,30 @@
+crud_relation:
+    pattern:  /
+    defaults: { _controller: "FamilyTreeBundle:Relation:index" }
+
+crud_relation_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "FamilyTreeBundle:Relation:show" }
+
+crud_relation_new:
+    pattern:  /new
+    defaults: { _controller: "FamilyTreeBundle:Relation:new" }
+
+crud_relation_create:
+    pattern:  /create
+    defaults: { _controller: "FamilyTreeBundle:Relation:create" }
+    requirements: { _method: post }
+
+crud_relation_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "FamilyTreeBundle:Relation:edit" }
+
+crud_relation_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "FamilyTreeBundle:Relation:update" }
+    requirements: { _method: post|put }
+
+crud_relation_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "FamilyTreeBundle:Relation:delete" }
+    requirements: { _method: post|delete }

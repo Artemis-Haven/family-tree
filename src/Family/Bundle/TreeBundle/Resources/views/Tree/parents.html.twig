@@ -1,0 +1,25 @@
+{% set firstP = relation.firstPerson %}
+{% set secondP = relation.secondPerson %}
+
+{% if firstP.parentsRelation %}
+	<div class="blocks">
+		{% include 'FamilyTreeBundle:Tree:parents.html.twig' with {'relation': firstP.parentsRelation} only %}
+	</div>
+{% endif %}
+
+{% if secondP.parentsRelation %}
+	<div class="blocks">
+		{% include 'FamilyTreeBundle:Tree:parents.html.twig' with {'relation': secondP.parentsRelation} only %}
+	</div>
+{% endif %}
+	<br/>
+
+<div id="pers-{{ firstP.id }}" class="element {% if firstP.sex == "F" %}fe{% endif %}male">
+	{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': firstP} only %}
+</div>
+
+{% include 'FamilyTreeBundle:Tree:unionCard.html.twig' with {'relation': relation} only %}
+
+<div id="pers-{{ secondP.id }}" class="element {% if secondP.sex == "F" %}fe{% endif %}male">
+	{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': secondP} only %}
+</div>

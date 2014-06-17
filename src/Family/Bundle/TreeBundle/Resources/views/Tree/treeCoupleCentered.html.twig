@@ -1,0 +1,94 @@
+{% extends 'FamilyTreeBundle:Default:layout.html.twig' %}
+
+{% block treeContainer %}
+
+
+{# Arbre Généalogique Centré sur un couple #}
+
+<div id="container">
+	<div class="blocks">
+
+		{% if relation.firstPerson.parentsRelation %}
+			<div class="blocks">
+				{% include 'FamilyTreeBundle:Tree:parents.html.twig' 
+					with {'relation': relation.firstPerson.parentsRelation} only %}
+			</div>
+		{% endif %}
+
+		{% if relation.secondPerson.parentsRelation %}
+			<div class="blocks">
+				{% include 'FamilyTreeBundle:Tree:parents.html.twig' 
+					with {'relation': relation.secondPerson.parentsRelation} only %}
+			</div>
+		{% endif %}
+
+		<br>
+
+		<div id="pers-{{ relation.firstPerson.id }}" class="element {% if relation.firstPerson.sex == "F" %}fe{% endif %}male">
+			{% include 'FamilyTreeBundle:Tree:personCard.html.twig' 
+				with {'person': relation.firstPerson} only %}
+		</div>
+
+		{% include 'FamilyTreeBundle:Tree:unionCard.html.twig' with {'relation': relation} only %}
+
+		<div id="pers-{{ relation.secondPerson.id }}" class="element {% if relation.secondPerson.sex == "F" %}fe{% endif %}male">
+			{% include 'FamilyTreeBundle:Tree:personCard.html.twig' 
+				with {'person': relation.secondPerson} only %}
+		</div>	
+		
+		<br>
+		
+		<div class="blocks">
+			{% include 'FamilyTreeBundle:Tree:allChildren.html.twig' with {'relation': relation} only %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.jsplumb-min.js') }}"></script>
+
+<script type="text/javascript">
+	jsPlumb.ready(function() {
+
+		var marriedLeft = {
+			anchors:[ "Center", "Right" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:"Straight"
+		};
+		var marriedRight = {
+			anchors:[ "Left", "Center" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:"Straight"
+		};
+		var children = {
+			anchors:[ "BottomCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { midpoint:0.8, stub:10, cornerRadius: 15 } ]
+		};
+
+
+		jsPlumb.connect({ source: "rel-{{ relation.id }}", target:"pers-{{ relation.firstPerson.id }}" }, marriedLeft);
+		jsPlumb.connect({ source: "pers-{{ relation.secondPerson.id }}", target:"rel-{{ relation.id }}" }, marriedRight);
+
+		{% if relation.firstPerson.parentsRelation %}
+			{% include 'FamilyTreeBundle:Tree:parentsRelationLinks.html.twig' 
+				with {'relation': relation.firstPerson.parentsRelation, 'child': relation.firstPerson} only %}
+		{% endif %}
+
+		{% if relation.secondPerson.parentsRelation %}
+			{% include 'FamilyTreeBundle:Tree:parentsRelationLinks.html.twig' 
+				with {'relation': relation.secondPerson.parentsRelation, 'child': relation.secondPerson} only %}
+		{% endif %}
+
+	});
+</script>
+{% endblock %}

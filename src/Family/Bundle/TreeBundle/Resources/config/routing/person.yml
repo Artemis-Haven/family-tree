@@ -1,0 +1,30 @@
+crud_person:
+    pattern:  /
+    defaults: { _controller: "FamilyTreeBundle:Person:index" }
+
+crud_person_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "FamilyTreeBundle:Person:show" }
+
+crud_person_new:
+    pattern:  /new
+    defaults: { _controller: "FamilyTreeBundle:Person:new" }
+
+crud_person_create:
+    pattern:  /create
+    defaults: { _controller: "FamilyTreeBundle:Person:create" }
+    requirements: { _method: post }
+
+crud_person_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "FamilyTreeBundle:Person:edit" }
+
+crud_person_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "FamilyTreeBundle:Person:update" }
+    requirements: { _method: post|put }
+
+crud_person_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "FamilyTreeBundle:Person:delete" }
+    requirements: { _method: post|delete }

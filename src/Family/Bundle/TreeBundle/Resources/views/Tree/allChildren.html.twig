@@ -1,0 +1,33 @@
+{% for child in relation.children %}
+
+	<div id="pers-{{ child.id }}" class="element {% if child.sex == "F" %}fe{% endif %}male">
+		{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': child} only %}
+	</div>
+
+	{% for rel in child.relations %}
+
+		{% include 'FamilyTreeBundle:Tree:unionCard.html.twig' with {'relation': rel} only %}
+
+		{% if rel.firstPerson.id == child.id %}
+			{% set pers = rel.secondPerson %}
+		{% else %}
+			{% set pers = rel.firstPerson %}
+		{% endif %}
+
+		<div id="pers-{{ pers.id }}" class="element {% if pers.sex == "F" %}fe{% endif %}male">
+			{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': pers} only %}
+		</div>
+
+	{% endfor %}
+
+{% endfor %}
+
+<br>
+
+{% for child in relation.children %}
+	<div class="blocks">
+		{% for relation in child.relations %}
+			{% include 'FamilyTreeBundle:Tree:allChildren.html.twig' with {'relation': relation} only %}
+		{% endfor %}
+	</div>
+{% endfor %}
