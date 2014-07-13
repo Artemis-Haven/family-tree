@@ -1,0 +1,18 @@
+<aside class="sidebar col-md-3">
+    <img class="logo" alt="Logo"></img>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Rechercher une personne">
+        <a type="submit" class="input-group-addon btn"><span class="glyphicon glyphicon-search"></span></a>
+    </div>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active">
+            <a href="{{ path('family_main_homepage') }}">Accueil</a>
+        </li>
+        <li>
+            <a href="{{ path('family_main_allFamilies') }}">Toutes les familles</a>
+        </li>
+        <li>
+            <a href="{{ path('family_main_myFamily', {'id': app.user.person.family.id}) }}">Votre famille</a>
+        </li>
+    </ul>
+</aside>

@@ -1,0 +1,110 @@
+{% extends 'FamilyTreeBundle:Default:layout.html.twig' %}
+
+{% block treeContainer %}
+
+
+{# Arbre Généalogique Descendant #}
+
+<div id="container">
+	<div class="blocks">
+
+		<div id="pers-{{ person.id }}" class="element {% if person.sex == "F" %}fe{% endif %}male">
+			{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': person} only %}
+		</div>
+
+		{% for rel in person.relations %}
+			{% include 'FamilyTreeBundle:Tree:unionCard.html.twig' with {'relation': rel} only %}
+
+			{% if rel.firstPerson.id == person.id %}
+				{% set pers = rel.secondPerson %}
+			{% else %}
+				{% set pers = rel.firstPerson %}
+			{% endif %}
+
+			<div id="pers-{{ pers.id }}" class="element {% if pers.sex == "F" %}fe{% endif %}male">
+				{% include 'FamilyTreeBundle:Tree:personCard.html.twig' with {'person': pers} only %}
+			</div>
+		{% endfor %}
+
+		<br>
+		
+		<div class="blocks">
+			{% for relation in person.relations %}
+				{% include 'FamilyTreeBundle:Tree:allChildren.html.twig' with {'relation': relation} only %}
+			{% endfor %}
+		</div>
+		
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.jsplumb-min.js') }}"></script>
+
+<script type="text/javascript">
+	jsPlumb.ready(function() {
+
+		var marriedLeft = {
+			anchors:[ "Center", "Right" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:"Straight"
+		};
+		var marriedRight = {
+			anchors:[ "Left", "Center" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:"Straight"
+		};
+		var children = {
+			anchors:[ "BottomCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#666666" },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { midpoint:0.8, stub:10, cornerRadius: 15 } ]
+		};
+		{#var childrenoverlap = {
+			anchors:[ "BottomCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#000000", outlineColor:"#eeeeee", outlineWidth:4 },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { stub:13.333333333333 } ]
+		};
+		var related = {
+			anchors:[ "BottomCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#000000", outlineColor:"#eeeeee", outlineWidth:4 },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { stub:13.333333333333 } ]
+		};
+		var related2 = {
+			anchors:[ "TopCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, dashstyle:"4 2", strokeStyle:"#000000", outlineColor:"#eeeeee", outlineWidth:4 },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { stub:13.333333333333 } ]
+		};
+		var siblings = {
+			anchors:[ "TopCenter", "TopCenter" ],
+			paintStyle:{ lineWidth:2, strokeStyle:"#000000", outlineColor:"#eeeeee", outlineWidth:4 },
+			endpoint:"Blank",
+			connector:[ "Flowchart", { stub:13.333333333333 } ]
+		};#}
+
+		{% for rel in person.relations %}
+			{% if rel.firstPerson.id == person.id %}
+				{% set pers = rel.secondPerson %}
+			{% else %}
+				{% set pers = rel.firstPerson %}
+			{% endif %}
+			jsPlumb.connect({ source: "rel-{{ rel.id }}", target:"pers-{{ person.id }}" }, marriedLeft);
+			jsPlumb.connect({ source: "pers-{{ pers.id }}", target:"rel-{{ rel.id }}" }, marriedRight);
+		{% endfor %}
+
+		{% for relation in person.relations %}
+			{% include 'FamilyTreeBundle:Tree:allChildrenRelationLinks.html.twig' with {'relation': relation} only %}
+		{% endfor %}
+	});
+</script>
+{% endblock %}

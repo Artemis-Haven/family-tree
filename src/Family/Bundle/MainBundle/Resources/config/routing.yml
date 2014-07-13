@@ -1,0 +1,11 @@
+family_main_homepage:
+    pattern:  /
+    defaults: { _controller: FamilyMainBundle:Default:index }
+
+family_main_allFamilies:
+    pattern:  /families
+    defaults: { _controller: FamilyMainBundle:Default:allFamilies }
+
+family_main_myFamily:
+    pattern:  /ma-famille
+    defaults: { _controller: FamilyMainBundle:Default:myFamily }

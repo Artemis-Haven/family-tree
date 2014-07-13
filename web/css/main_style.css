@@ -1,0 +1,136 @@
+/*
+	Style général
+ */
+
+body {
+	/*background-color: #FFFFEE;*/
+	background-color: #40404A;
+	z-index: 1;
+}
+
+body > .row {
+}
+
+/*
+	Barre latérale gauche
+ */
+
+.sidebar {
+	padding: 10px 0 10px 10px;
+	position: fixed;
+	z-index: 10;
+}
+
+.sidebar > img.logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100px;
+	height: 100px;
+	background-color: grey;
+}
+
+.sidebar > * {
+	margin-bottom: 20px;
+}
+
+.sidebar > .nav > * {
+	margin-bottom: 20px;
+}
+
+.sidebar .input-group {
+	background-color: #3A3A45;
+}
+
+.sidebar .input-group:hover {
+	-webkit-box-shadow:inset undefined undefined 3px 0px #40404A;
+	box-shadow:inset undefined undefined 3px 0px #40404A;
+}
+
+.sidebar input.form-control, .sidebar .input-group a.btn {
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+	box-shadow: none;
+}
+
+.sidebar .input-group a.btn  {
+	color:  #FFF;
+}
+
+/*
+	Bloc central
+ */
+
+.principal {
+	padding: 5px;
+	z-index: 20;
+}
+
+.principal-sidebar-opened {
+	padding-left: 25%;
+}
+
+.principal section {
+	margin: 10px;
+	background-color: #F3EEE7;
+	min-height: 300px;
+	-webkit-box-shadow: 0 2px 4px 2px rgba(0,0,0,0.4);
+	box-shadow: 0 2px 4px 2px rgba(0,0,0,0.4);
+}
+
+/*
+	En-tête de titre, rouge
+ */
+
+header.titre {
+	background-color: #82403B;
+	color: #FFF;
+	box-shadow: 0 2px 3px 2px rgba(0,0,0,0.3);
+}
+
+header.titre h1 {
+	padding: 10px;
+}
+
+header.titre .menu {
+	position: absolute;
+	right: 40px;
+	top: 25px;
+}
+
+header.titre .menu > * {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #FAEAE0;
+	border-left: 1px solid #92504B;
+	border-bottom: 1px solid #92504B;
+	text-decoration: none;
+	margin-right: -5px;
+}
+
+header.titre .menu > *:last-child {
+	border-right: 1px solid #92504B;
+}
+
+header.titre .menu > *:hover {
+	background-color: #92504B;
+}
+
+/*
+	Utilitaires
+ */
+
+.h-separ {
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #FFF;
+}
+
+/*
+	Pied-de-page
+ */
+
+footer {
+	text-align: center;
+	color: grey;
+}

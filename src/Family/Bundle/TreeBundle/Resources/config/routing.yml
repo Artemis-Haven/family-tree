@@ -1,0 +1,39 @@
+family_tree_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: FamilyTreeBundle:Default:index }
+
+family_tree_family:
+    pattern:  /family/{id}
+    defaults: { _controller: FamilyTreeBundle:Default:family }
+
+family_tree_tree:
+    pattern:  /tree/{id}
+    defaults: { _controller: FamilyTreeBundle:Default:tree }
+
+family_tree_tree_asc:
+    pattern:  /tree/{id}/asc
+    defaults: { _controller: FamilyTreeBundle:Default:treeAsc }
+
+family_tree_tree_desc:
+    pattern:  /tree/{id}/desc
+    defaults: { _controller: FamilyTreeBundle:Default:treeDesc }
+
+family_tree_tree_couple_centered:
+    pattern:  /tree/{id}/couple
+    defaults: { _controller: FamilyTreeBundle:Default:treeCoupleCentered }
+
+family_tree_person:
+    pattern:  /person/{id}
+    defaults: { _controller: FamilyTreeBundle:Default:person }
+
+family_tree_union:
+    pattern:  /union/{id}
+    defaults: { _controller: FamilyTreeBundle:Default:relation }
+
+FamilyTreeBundle_crud_person:
+    resource: "@FamilyTreeBundle/Resources/config/routing/person.yml"
+    prefix:   /crud/person
+
+FamilyTreeBundle_crud_relation:
+    resource: "@FamilyTreeBundle/Resources/config/routing/relation.yml"
+    prefix:   /crud/relation

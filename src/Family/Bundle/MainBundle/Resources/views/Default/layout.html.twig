@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main_style.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            
+            {% if app.user %}
+                {% include 'FamilyMainBundle:Default:sidebar.html.twig' %}
+            {% endif %}
+            
+            <div class="principal col-md-9 col-md-offset-3">
+                <section>
+                    <header class="titre">
+                        <h1>{% block titre %}{% endblock %}</h1>
+                        <div class="menu">
+                            <a href="">Connexion</a>
+                            <a href="">S'enregistrer</a>
+                        </div>
+                    </header>
+                    {% block soustitre %}{% endblock %}
+                    <div class="h-separ"></div>
+                    <article>
+                        {% block principal %}{% endblock %}
+                    </article>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            
+            <footer class="col-md-12">
+                Texte de pied de page
+            </footer>
+        </div>
+    </div>
+
+    {% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {% endblock %}
+
+{% endblock %}
+
