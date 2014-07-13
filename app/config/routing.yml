@@ -1,4 +1,0 @@
-family_tree:
-    resource: "@FamilyTreeBundle/Resources/config/routing.yml"
-    prefix:   /
-
