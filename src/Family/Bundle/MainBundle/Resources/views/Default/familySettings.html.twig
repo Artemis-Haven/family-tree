@@ -1,0 +1,16 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Options pour : {{ family }}
+{% endblock %}
+
+{% block soustitre %}
+	<a href="{{  path('family_main_family', {'id' : family.id} ) }}">Revenir à la famille</a>
+{% endblock %}
+
+{% block principal %}
+	Option 1 : bla bla <br>
+	Option 2 : bla bla <br>
+	Option 3 : bla bla
+
+{% endblock %}

@@ -1,19 +1,19 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
 
 {% block titre %}
-	Ma famille
+	{{ family }}
 {% endblock %}
 
 {% block soustitre %}
-	Les membres de ma famille :
-	<a title="Options" href="{{  path('family_main_familySettings', {'id' : app.user.person.family.id} ) }}" class="pull-right">
+	Les membres de cette famille :
+	<a title="Options" href="{{  path('family_main_familySettings', {'id' : family.id} ) }}" class="pull-right">
 		<span class="glyphicon glyphicon-cog"></span>
 	</a>
 {% endblock %}
 
 {% block principal %}
 	<div class="listOfFamilyMembers">
-	{% for person in app.user.person.family.persons %}
+	{% for person in family.persons %}
 		<a href="{{ path('family_main_person', {'id': person.id}) }}">{{person}}</a><br>
 	{% endfor %}
 	</div>

@@ -3,5 +3,10 @@
 
 {% block principal %}
 	Liste de toutes les familles :
+	<br>
+	{% for family in families %}
+		<a href="{{ path('family_main_family', {'id' : family.id} ) }}">{{ family }}</a>
+		<br>
+	{% endfor %}
 
 {% endblock %}

@@ -9,3 +9,27 @@ family_main_allFamilies:
 family_main_myFamily:
     pattern:  /ma-famille
     defaults: { _controller: FamilyMainBundle:Default:myFamily }
+
+family_main_family:
+    pattern:  /famille/{id}
+    defaults: { _controller: FamilyMainBundle:Default:family }
+    requirements:
+        id:  \d+
+
+family_main_familySettings:
+    pattern:  /famille/{id}/options
+    defaults: { _controller: FamilyMainBundle:Default:familySettings }
+    requirements:
+        id:  \d+
+
+family_main_person:
+    pattern:  /personne/{id}
+    defaults: { _controller: FamilyMainBundle:Default:person }
+    requirements:
+        id:  \d+
+
+family_main_ajax:
+    resource: "ajax-routing.yml"
+    prefix:   /AJAX/
+    requirements:
+        _method:  POST

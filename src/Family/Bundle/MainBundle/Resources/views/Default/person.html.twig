@@ -1,0 +1,97 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	{{ person }}
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{  path('family_main_family', {'id' : person.family.id} ) }}">Revenir à la famille</a>
+{% endblock %}
+
+{% block principal %}
+	<article id="personId">
+		{% if person.parentsRelation %}
+		{% set frstPers = person.parentsRelation.firstPerson %}
+		{% set secPers = person.parentsRelation.secondPerson %}
+		<div id="parentsGen" class="row">
+			<div class="col-md-5 col-sm-6 col-xs-6">
+				<div id="parent1">
+					{% if frstPers.sex == "F" %}Mère : {% else %}Père : {% endif %}
+					<br>
+					<a href="{{ path('family_main_person', {'id': frstPers.id}) }}">{{ frstPers }}</a>
+				</div>
+			</div>
+			<div style="visibility:hidden;" class="col-md-2 visible-md-block visible-lg-block" ></div>
+			<div class="col-md-5 col-sm-6 col-xs-6">
+				<div id="parent2">
+					{% if secPers.sex == "F" %}Mère : {% else %}Père : {% endif %}
+					<br>
+					<a href="{{ path('family_main_person', {'id': secPers.id}) }}">{{ secPers }}</a>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		
+		<div id="thisGen" class="row">
+			<div class="col-md-3 col-sm-2">
+				<div id="freressoeurs">
+					Frères et Soeurs :
+					<br>
+					{% for brotherSister in person.brothersSisters %}
+						<a href="{{ path('family_main_person', {'id': brotherSister.id}) }}">{{ brotherSister }}</a>
+						<br>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-8">
+				<div id="person">
+					Prénom : {{ person.firstName }} <br>
+					Autres prénoms : {{ person.middleNames }} <br>
+					{% if person.sex == 'F' %}Nom de jeune fille : {% else %}Nom de famille : {% endif %}
+					{{ person.lastName }} <br>
+					Surnoms ou titres : {{ person.surname }} <br>
+					Sexe : {{ person.sex }} <br>
+					Date de naissance : {{ person.birthDate | date }} <br>
+					{% if person.deathDate %}
+					Date de déces : {{ person.deathDate | date }} <br>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-2">
+				<div id="relations">
+					Relation(s) :
+					<br>
+					{% for mate in person.mates %}
+						<a href="{{ path('family_main_person', {'id': mate.id}) }}">{{ mate }}</a>
+						<br>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div id="childrenGen" class="row">
+			{% for relation in person.relations %}
+				{% if relation.firstPerson.id == person.id %}
+					{% set couple = relation.secondPerson %}
+				{% else %}
+					{% set couple = relation.firstPerson %}
+				{% endif %}
+
+				{% for child in relation.children %}
+
+				<div class="col-md-3 col-sm-4 col-xs-6">
+					<div class="enfant">
+						Avec <a href="{{ path('family_main_person', {'id': couple.id}) }}">{{ couple }}</a> :
+						<br>
+						<a href="{{ path('family_main_person', {'id': child.id}) }}">{{ child }}</a>
+					</div>
+				</div>
+
+				{% endfor %}
+
+			{% endfor %}
+
+		</div>
+		<br>
+	</article>
+{% endblock %}

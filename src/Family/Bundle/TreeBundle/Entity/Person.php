@@ -410,6 +410,74 @@ class Person
     }
 
     /**
+     * Get freresSoeurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBrothersSisters()
+    {
+        return $this->getBrothersSistersBySex(null);
+    }
+
+
+    /**
+     * Get freresSoeursBySex
+     *
+     * @param string $sex
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    private function getBrothersSistersBySex($sex = null)
+    {
+        $brothersSisters = new \Doctrine\Common\Collections\ArrayCollection();
+        $allChildrenOfParents = array();
+
+        // On récupère toutes les relations des deux parents
+        $relations = array_merge($this->getParentsRelation()->getFirstPerson()->getRelations()->toArray(), 
+                                 $this->getParentsRelation()->getSecondPerson()->getRelations()->toArray()
+                                 );
+
+        // On stocke tous les enfants de ces relations
+        foreach ( $relations as $relation ) {
+            foreach ($relation->getChildren() as $child) {
+                $allChildrenOfParents[] = $child;
+            }
+        }
+        
+        // On ne garde pas les doublons ni la personne concernée
+        foreach ($allChildrenOfParents as $child) {
+            if (!$brothersSisters->contains($child) and $child != $this) {
+                    // Si le paramètre est renseigné, on ne garde pas ceux du sexe opposé
+                    if ($sex == null or $sex == $child->getSex()) {
+                        $brothersSisters->add($child);
+                    }
+            }
+        }
+
+        return $brothersSisters;
+    }
+
+    public function getMates()
+    {
+        $mates = new \Doctrine\Common\Collections\ArrayCollection();
+        $allMates = array();
+
+        // On ne garde pas les doublons ni la personne concernée
+        foreach ($this->getRelations() as $relation) {
+            $firstP = $relation->getFirstPerson();
+            $secP = $relation->getSecondPerson();
+
+            if (!$mates->contains($firstP) and $firstP != $this) {
+                    $mates->add($firstP);
+            }
+            if (!$mates->contains($secP) and $secP != $this) {
+                    $mates->add($secP);
+            }
+        }
+
+        return $mates;
+   }
+
+    /**
      * Set notes
      *
      * @param string $notes

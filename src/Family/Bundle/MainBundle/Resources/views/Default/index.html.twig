@@ -4,7 +4,16 @@
 	Page d'accueil
 {% endblock %}
 
+{% block soustitre %}
+	Sous-titre
+{% endblock %}
+
 {% block principal %}
-	Texte de la page d'accueil
+	Texte de la page d'accueil <br>
+	<br>
+	Cookies <br>
+	{% for cookie, val in app.request.cookies %}
+		{{ cookie }} : {{ val }} <br>
+	{% endfor %}
 
 {% endblock %}

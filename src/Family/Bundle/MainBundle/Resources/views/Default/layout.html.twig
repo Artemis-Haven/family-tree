@@ -11,20 +11,39 @@
     <div class="container-fluid">
         <div class="row">
             
-            {% if app.user %}
-                {% include 'FamilyMainBundle:Default:sidebar.html.twig' %}
-            {% endif %}
+            {% set hideSidebar = app.request.cookies.get('hideSidebar') %}
+
+            {% include 'FamilyMainBundle:Default:sidebar.html.twig' %}
             
+            {% if hideSidebar != 'true' %}
             <div class="principal col-md-9 col-md-offset-3">
+            {% else %}
+            <div class="principal col-md-12">
+            {% endif %}
+                {% if hideSidebar != 'true' %}
+                <div id="hideBtn" title="Masquer le menu" class="open visible-md-block visible-lg-block" 
+                    onclick="toggleSidebar('{{ path('family_main_cookie_hideSidebar') }}');">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </div>
+                {% else %}
+                <div id="hideBtn" title="Masquer le menu" class="closed visible-md-block visible-lg-block" 
+                    onclick="toggleSidebar('{{ path('family_main_cookie_hideSidebar') }}');">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </div>
+                {% endif %}
                 <section>
                     <header class="titre">
-                        <h1>{% block titre %}{% endblock %}</h1>
+                        <h1>{% block titre %}Page sans titre{% endblock %}</h1>
                         <div class="menu">
-                            <a href="">Connexion</a>
-                            <a href="">S'enregistrer</a>
+                            {% if app.user %}
+                            <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                            {% else %}
+                            <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+                            <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a>
+                            {% endif %}
                         </div>
                     </header>
-                    {% block soustitre %}{% endblock %}
+                    <h3>{% block soustitre %}{% endblock %}</h3>
                     <div class="h-separ"></div>
                     <article>
                         {% block principal %}{% endblock %}
@@ -36,15 +55,33 @@
         <div class="row">
             
             <footer class="col-md-12">
-                Texte de pied de page
+                &copy; 2014 Rémi Patrizio. Tous droits réservés. Bla bla bla...
             </footer>
         </div>
     </div>
+{% endblock %}
 
-    {% block javascripts %}
+
+{% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    {% endblock %}
+    <script src="{{ asset('js/sidebar.js') }}"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            // Couleur de fond du champ de recherche change si le focus est dessus.
+            $('#sidebarSearchForm input.form-control').focusin(function () {
+                $(this).parent().addClass('sidebarSearchFormFocus');
+                //$(this).attr('placeholder', "");
+            });
+            $('#sidebarSearchForm input.form-control').focusout(function () {
+                $(this).parent().removeClass('sidebarSearchFormFocus');
+                //$(this).attr('placeholder', "Rechercher une personne");
+            });
+        });
 
+
+    </script>
 {% endblock %}
 
