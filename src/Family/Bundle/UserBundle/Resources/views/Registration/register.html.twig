@@ -1,0 +1,21 @@
+{% extends 'FamilyUserBundle::layout.html.twig' %}
+ 
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block titre %}Créez-vous un compte{% endblock %}
+
+{% block soustitre %}
+	<a href="{{  path('family_main_homepage') }}">
+		Retour à l'accueil
+	</a>
+	<span class="pull-right">
+		Si vous avez déjà un compte, <a href="{{ path("fos_user_security_login") }}">connectez-vous</a> !
+	</span>
+{% endblock %}
+
+{% block fos_user_content %}
+
+    {% include 'FOSUserBundle:Registration:register_content.html.twig' %}
+
+{% endblock %}
+
