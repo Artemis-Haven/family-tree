@@ -3,6 +3,7 @@
 namespace Family\Bundle\TreeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Family\Bundle\TreeBundle\Model\FamilySettings;
 
 /**
  * Family
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Family
 {
+
     /**
      * @var integer
      *
@@ -33,6 +35,13 @@ class Family
      * @ORM\OneToMany(targetEntity="Family\Bundle\TreeBundle\Entity\Person", mappedBy="family", cascade={"persist", "remove"})
      */
     private $persons; 
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="privacy", type="integer", options={"default":4})
+     */
+    private $privacy;
 
 
     public function __toString()
@@ -74,6 +83,36 @@ class Family
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set privacy
+     *
+     * @param integer $privacy
+     * @return Family
+     */
+    public function setPrivacy($privacy)
+    {
+        if (!array_key_exists($privacy, FamilySettings::$privacyList )) {
+            throw new \InvalidArgumentException("Invalid privacy parameter.");
+        }
+        $this->privacy = $privacy;
+
+        return $this;
+    }
+
+    /**
+     * Get privacy
+     *
+     * @return string
+     */
+    public function getPrivacy()
+    {
+        return FamilySettings::getPrivacyById($this->privacy);
+    }
+    public function getPrivacyIndex()
+    {
+        return $this->privacy;
     }
 
     public function addPerson(\Family\Bundle\TreeBundle\Entity\Person $person)

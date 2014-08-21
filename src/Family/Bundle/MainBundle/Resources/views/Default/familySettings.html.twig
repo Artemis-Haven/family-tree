@@ -1,4 +1,5 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
 
 {% block titre %}
 	Options pour : {{ family }}
@@ -9,8 +10,54 @@
 {% endblock %}
 
 {% block principal %}
-	Option 1 : bla bla <br>
-	Option 2 : bla bla <br>
-	Option 3 : bla bla
+	<form class="form-horizontal" role="form" action="{{  path('family_main_familySettings', {'id' : family.id} ) }}" method="post" {{ form_enctype(form) }}>
+		{{ form_row(form.name) }}
+		{{ form_row(form.privacy) }}
+		<div class="form-group">
+			<small id="privacyDetails" class="col-sm-8 col-sm-offset-3">
+			    <span>
+			    	<strong>Tout public</strong> : 
+			    	Tout le monde a accès à la liste des membres, à l'arbre et aux fiches des membres. <br>
+			    </span>
+			    <span>
+			    	<strong>Arbre et membres publics</strong> : 
+			    	Tout le monde a accès à la liste des membres et à l'arbre, mais pas au détail des fiches.<br>
+			    </span>
+			    <span>
+			    	<strong>Seulement les membres publics</strong> : 
+			    	Tout le monde peut voir les membres lors de recherches par nom, mais pas leur détail.<br>
+			    </span>
+			    <span>
+			    	<strong>Privé</strong> : 
+			    	Personne ne voit les membres, même via le moteur de recherche. <br>
+			    </span>
+			    <br>
+		    </small>
+	    </div>
+		{{ form_rest(form) }}
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-3">
+				<input class="btn btn-default" type="submit" value="Enregistrer les modifications" />
+			</div>
+		</div>
+	</form>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$('#{{form.privacy.vars.id}}').change(function () {
+			var id = $( "#{{form.privacy.vars.id}} option:selected" ).index();
+			$('#privacyDetails span').each(function (index) {
+				if (id == index) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			})
+		})
+	});
+</script>
 {% endblock %}

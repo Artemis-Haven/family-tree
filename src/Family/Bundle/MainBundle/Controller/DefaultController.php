@@ -2,7 +2,11 @@
 
 namespace Family\Bundle\MainBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Family\Bundle\TreeBundle\Form\FamilySettingsType;
+use Family\Bundle\TreeBundle\Entity\Family as Family;
 
 class DefaultController extends Controller
 {
@@ -50,7 +54,7 @@ class DefaultController extends Controller
         }
     }
 
-    public function familySettingsAction($id)
+    public function familySettingsAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -60,8 +64,20 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find Family entity.');
         }
 
+        $form = $this->createForm(new FamilySettingsType(), $family, array(
+            'privacyIndex' => $family->getPrivacyIndex()) 
+        );
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('family_main_family', array('id' => $id)));
+        }
+
         return $this->render('FamilyMainBundle:Default:familySettings.html.twig', array(
             'family'      => $family,
+            'form'        => $form->createView(),
         ));
     }
 
