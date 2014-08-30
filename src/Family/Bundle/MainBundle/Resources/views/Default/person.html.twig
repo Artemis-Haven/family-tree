@@ -6,6 +6,7 @@
 
 {% block soustitre %}
 <a href="{{  path('family_main_family', {'id' : person.family.id} ) }}">Revenir à la famille</a>
+<a href="#" class="pull-right">Modifier les informations</a>
 {% endblock %}
 
 {% block principal %}
@@ -16,7 +17,7 @@
 		<div id="parentsGen" class="row">
 			<div class="col-md-5 col-sm-6 col-xs-6">
 				<div id="parent1">
-					{% if frstPers.sex == "F" %}Mère : {% else %}Père : {% endif %}
+					<b>{% if frstPers.sex == "F" %}Mère{% else %}Père{% endif %}</b>
 					<br>
 					<a href="{{ path('family_main_person', {'id': frstPers.id}) }}">{{ frstPers }}</a>
 				</div>
@@ -24,7 +25,7 @@
 			<div style="visibility:hidden;" class="col-md-2 visible-md-block visible-lg-block" ></div>
 			<div class="col-md-5 col-sm-6 col-xs-6">
 				<div id="parent2">
-					{% if secPers.sex == "F" %}Mère : {% else %}Père : {% endif %}
+					<b>{% if secPers.sex == "F" %}Mère{% else %}Père{% endif %}</b>
 					<br>
 					<a href="{{ path('family_main_person', {'id': secPers.id}) }}">{{ secPers }}</a>
 				</div>
@@ -35,7 +36,7 @@
 		<div id="thisGen" class="row">
 			<div class="col-md-3 col-sm-2">
 				<div id="freressoeurs">
-					Frères et Soeurs :
+					<b>Frères et Soeurs</b>
 					<br>
 					{% for brotherSister in person.brothersSisters %}
 						<a href="{{ path('family_main_person', {'id': brotherSister.id}) }}">{{ brotherSister }}</a>
@@ -45,21 +46,21 @@
 			</div>
 			<div class="col-md-6 col-sm-8">
 				<div id="person">
-					Prénom : {{ person.firstName }} <br>
-					Autres prénoms : {{ person.middleNames }} <br>
-					{% if person.sex == 'F' %}Nom de jeune fille : {% else %}Nom de famille : {% endif %}
+					<b>Prénom : </b>{{ person.firstName }} <br>
+					<b>Autres prénoms : </b>{{ person.middleNames }} <br>
+					<b>{% if person.sex == 'F' %}Nom de jeune fille : {% else %}Nom de famille : {% endif %}</b>
 					{{ person.lastName }} <br>
-					Surnoms ou titres : {{ person.surname }} <br>
-					Sexe : {{ person.sex }} <br>
-					Date de naissance : {{ person.birthDate | date }} <br>
+					<b>Surnoms ou titres : </b>{{ person.surname }} <br>
+					<b>Sexe : </b>{{ person.sex }} <br>
+					<b>Date de naissance : </b>{{ person.birthDate | localizeddate('full', 'none') | capitalize }} <br>
 					{% if person.deathDate %}
-					Date de déces : {{ person.deathDate | date }} <br>
+					<b>Date de déces : </b>{{ person.deathDate | localizeddate('full', 'none') | capitalize }} <br>
 					{% endif %}
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-2">
 				<div id="relations">
-					Relation(s) :
+					<b>Relation(s)</b>
 					<br>
 					{% for mate in person.mates %}
 						<a href="{{ path('family_main_person', {'id': mate.id}) }}">{{ mate }}</a>
@@ -81,7 +82,7 @@
 
 				<div class="col-md-3 col-sm-4 col-xs-6">
 					<div class="enfant">
-						Avec <a href="{{ path('family_main_person', {'id': couple.id}) }}">{{ couple }}</a> :
+						<b>Enfant avec </b><a href="{{ path('family_main_person', {'id': couple.id}) }}">{{ couple }}</a>
 						<br>
 						<a href="{{ path('family_main_person', {'id': child.id}) }}">{{ child }}</a>
 					</div>
@@ -92,6 +93,32 @@
 			{% endfor %}
 
 		</div>
-		<br>
+	</article>
+
+	<div class="h-separ"></div>
+
+	<article id="personDocs" class="row">
+		<div class="col-md-12">
+			<div class="docsTitle">
+				<b>Documents associés à cette personne</b>
+			</div>
+			<div id="documents">
+				{% for doc in person.documents %}
+				<div class="docFrame">
+					<a href="{{ path('family_main_document_show', {'id': doc.id}) }}">
+						<img src="{{ asset(doc.webPath) }}" alt="Aperçu non disponible">
+						<label for="" class="docLegend overme" title="{{ doc.name }}">{{ doc.name }}</label>
+					</a>
+				</div>
+				{% else %}
+					<div class="noDoc">
+						Aucun document.
+					</div>
+				{% endfor %}
+				<div class="docFrame" id="addDocument">
+					<a href="{{ path('family_main_document_new', {'personId': person.id}) }}">Ajouter un document</a>
+				</div>
+			</div>
+		</div>
 	</article>
 {% endblock %}

@@ -37,3 +37,7 @@ FamilyTreeBundle_crud_person:
 FamilyTreeBundle_crud_relation:
     resource: "@FamilyTreeBundle/Resources/config/routing/relation.yml"
     prefix:   /crud/relation
+
+FamilyTreeBundle_crud_document:
+    resource: "@FamilyTreeBundle/Resources/config/routing/document.yml"
+    prefix:   /crud/document

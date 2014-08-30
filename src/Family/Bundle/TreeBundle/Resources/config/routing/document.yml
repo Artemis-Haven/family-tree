@@ -1,0 +1,30 @@
+crud_document:
+    path:     /
+    defaults: { _controller: "FamilyTreeBundle:Document:index" }
+
+crud_document_show:
+    path:     /{id}/show
+    defaults: { _controller: "FamilyTreeBundle:Document:show" }
+
+crud_document_new:
+    path:     /new
+    defaults: { _controller: "FamilyTreeBundle:Document:new" }
+
+crud_document_create:
+    path:     /create
+    defaults: { _controller: "FamilyTreeBundle:Document:create" }
+    requirements: { _method: post }
+
+crud_document_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FamilyTreeBundle:Document:edit" }
+
+crud_document_update:
+    path:     /{id}/update
+    defaults: { _controller: "FamilyTreeBundle:Document:update" }
+    requirements: { _method: post|put }
+
+crud_document_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FamilyTreeBundle:Document:delete" }
+    requirements: { _method: post|delete }

@@ -12,4 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class PersonRepository extends EntityRepository
 {
+	public function findByFamilyOrderedByName($familyId)
+    {
+        $query = $this->createQueryBuilder('p')
+	        ->where('p.family = :id')
+	        ->orderBy('p.lastName, p.firstName', 'ASC')
+	        ->setParameter('id', $familyId)
+	        ->getQuery();
+        return $query->getResult();
+	}
+
+	public function findByFamilyOrderedBySurname($familyId)
+    {
+        $query = $this->createQueryBuilder('p')
+	        ->where('p.family = :id')
+	        ->orderBy('p.firstName, p.lastName', 'ASC')
+	        ->setParameter('id', $familyId)
+	        ->getQuery();
+        return $query->getResult();
+	}
+
+	public function findByFamilyOrderedByBirthdate($familyId)
+    {
+        $query = $this->createQueryBuilder('p')
+	        ->where('p.family = :id')
+	        ->orderBy('p.birthDate', 'ASC')
+	        ->setParameter('id', $familyId)
+	        ->getQuery();
+        return $query->getResult();
+	}
 }

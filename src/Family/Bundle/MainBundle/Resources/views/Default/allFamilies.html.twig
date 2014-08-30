@@ -1,8 +1,9 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
 
+{% block titre %}Toutes les familles{% endblock %}
 
 {% block principal %}
-	Liste de toutes les familles :
+	Liste des familles :
 	<br>
 	{% for family in families %}
 		<a href="{{ path('family_main_family', {'id' : family.id} ) }}">{{ family }}</a>

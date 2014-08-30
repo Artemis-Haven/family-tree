@@ -1,0 +1,30 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Modifier un document
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{ path('family_main_document_show', {'id': document.id}) }}">Annuler</a>
+{% endblock %}
+
+{% block principal %}
+	<article id="docPage">
+		<div class="row">
+			{{ form(form) }}
+		</div>
+
+		<div class="h-separ"></div>
+
+		<div id="imgRow" class="row">
+			<div class="col-md-12">
+				<b>Document actuel :</b> {{ document.name }}
+				<br>
+				<a href="{{ asset(document.webPath) }}">
+					<img src="{{ asset(document.webPath) }}" alt="{{ document.name }}" 
+						title="Cliquez pour agrandir" class="img-thumbnail">
+				</a>
+			</div>
+		</div>
+	</article>
+{% endblock %}

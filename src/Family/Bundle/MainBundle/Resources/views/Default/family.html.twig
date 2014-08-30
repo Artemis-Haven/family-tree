@@ -6,15 +6,13 @@
 
 {% block soustitre %}
 	Les membres de cette famille :
-	<a title="Options" href="{{  path('family_main_familySettings', {'id' : family.id} ) }}" class="pull-right">
-		<span class="glyphicon glyphicon-cog"></span>
-	</a>
 {% endblock %}
 
 {% block principal %}
 	<div class="listOfFamilyMembers">
-	{% for person in family.persons %}
+	{% for person in persons %}
 		<a href="{{ path('family_main_person', {'id': person.id}) }}">{{person}}</a><br>
 	{% endfor %}
 	</div>
+
 {% endblock %}

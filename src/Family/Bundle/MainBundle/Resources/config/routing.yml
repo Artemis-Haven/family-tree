@@ -33,3 +33,27 @@ family_main_ajax:
     prefix:   /AJAX/
     requirements:
         _method:  POST
+
+family_main_document_show:
+    pattern:  /document/{id}
+    defaults: { _controller: FamilyMainBundle:Document:showDoc }
+    requirements:
+        id:  \d+
+
+family_main_document_download:
+    pattern:  /document/{id}/download
+    defaults: { _controller: FamilyMainBundle:Document:downloadDoc }
+    requirements:
+        id:  \d+
+
+family_main_document_edit:
+    pattern:  /document/{id}/edit
+    defaults: { _controller: FamilyMainBundle:Document:editDoc }
+    requirements:
+        id:  \d+
+
+family_main_document_new:
+    pattern:  /document/new/{personId}
+    defaults: { _controller: FamilyMainBundle:Document:newDoc }
+    requirements:
+        personId:  \d+

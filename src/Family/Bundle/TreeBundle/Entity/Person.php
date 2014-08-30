@@ -97,6 +97,11 @@ class Person
     private $family;
 
     /**
+     * @ORM\OneToMany(targetEntity="Family\Bundle\TreeBundle\Entity\Document", mappedBy="person", cascade={"persist", "remove"})
+     */
+    private $documents; 
+
+    /**
      * @var text
      *
      * @ORM\Column(name="notes", type="text", nullable=true)
@@ -476,6 +481,28 @@ class Person
 
         return $mates;
    }
+
+    public function addDocument(\Family\Bundle\TreeBundle\Entity\Document $document)
+    {
+        $this->documents[] = $document;
+        $document->setPerson($this); 
+        return $this;
+    }
+
+    public function removeDocument(\Family\Bundle\TreeBundle\Entity\Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
 
     /**
      * Set notes

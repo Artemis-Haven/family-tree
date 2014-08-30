@@ -34,7 +34,7 @@ class User extends BaseUser
     }
 
     /**
-    * @ORM\OneToOne(targetEntity="Family\Bundle\TreeBundle\Entity\Person")
+    * @ORM\OneToOne(targetEntity="Family\Bundle\TreeBundle\Entity\Person", inversedBy="user")
     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=true)
     */
     private $person;

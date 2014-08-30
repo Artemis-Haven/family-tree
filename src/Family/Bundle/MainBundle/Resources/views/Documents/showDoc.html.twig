@@ -1,0 +1,33 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Document : {{ doc.name }}
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{ path('family_main_person', {'id': doc.person.id}) }}">Revenir</a>
+{% endblock %}
+
+{% block principal %}
+	<article id="docPage">
+		<div id="imgRow" class="row">
+			<div class="col-md-12">
+				<a href="{{ asset(doc.webPath) }}">
+					<img src="{{ asset(doc.webPath) }}" alt="{{ doc.name }}" 
+						title="Cliquez pour agrandir" class="img-thumbnail">
+				</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<a class="btn btn-default" href="{{ path('family_main_document_download', {'id': doc.id}) }}">
+				Télécharger le document <span class="glyphicon glyphicon-download-alt small"></span>
+			</a>
+			ou bien
+			<a class="btn btn-default" href="{{ path('family_main_document_edit', {'id': doc.id}) }}">
+				Modifier les informations <span class="glyphicon glyphicon-pencil small"></span>
+			</a>
+		</div>
+
+	</article>
+{% endblock %}

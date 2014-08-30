@@ -12,9 +12,13 @@
 {% endblock %}
 
 {% block principal %}
+	<div class="accesArbres">
+		
+	</div>
 	<div class="listOfFamilyMembers">
-	{% for person in app.user.person.family.persons %}
+	{% for person in persons %}
 		<a href="{{ path('family_main_person', {'id': person.id}) }}">{{person}}</a><br>
 	{% endfor %}
 	</div>
+
 {% endblock %}

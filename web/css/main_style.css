@@ -3,9 +3,13 @@
  */
 
 body {
-	/*background-color: #FFFFEE;*/
-	background-color: #40404A;
+	/*background-color: #FFFFEE;
+	background-color: #40424A;*/
+	background-color: #E0CA97;
 	z-index: 1;
+	max-width: 1366px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 a { color: #773F1E; }
@@ -20,6 +24,7 @@ a:visited { color: #572F0E; }
 	padding: 5px 0 10px 10px;
 	position: fixed;
 	z-index: 10;
+	max-width: 330px;
 }
 
 .sidebar > img.logo {
@@ -38,7 +43,6 @@ a:visited { color: #572F0E; }
 	background-color: rgba(0, 0, 0, 0);
 	border-width: 0px;
 	box-shadow: none;
-	color: #FFF;
 	height: 28px;
 	margin-top: 7px;
 	margin-bottom: 6px;
@@ -50,7 +54,7 @@ a:visited { color: #572F0E; }
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	padding: 1px;
-	background-color: #3A3A45;
+	background-color: #CDB98C;
 }
 
 .sidebar .input-group {
@@ -58,22 +62,22 @@ a:visited { color: #572F0E; }
 	box-shadow:inset 0 2px 5px 0 rgba(0,0,0,0.5);
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	background-color: #3A3A45;
+	background-color: #CDB98C;
 }
 
 .sidebarSearchFormFocus {
-	background-color: #2D2D39 !important;
+	background-color: #BFAB7E !important;
 }
 
 .sidebar > .nav li a {
 	-webkit-border-radius: 0;
 	border-radius: 0;
-	color: #F7F7F7;
+	color: #444;
 }
 
 .sidebar > .nav li.active a, .sidebar > .nav li:hover a, .sidebar > .nav li a:focus {
 	background-color: rgba(130, 64, 59, 1);
-	background-color: rgba(255, 56, 40, 0.3);
+	/*background-color: rgba(255, 56, 40, 0.3);*/
 	color: #F7F7F7;
 	-webkit-box-shadow: 0 0px 3px 0 rgba(0,0,0,0.4);
 	box-shadow: 0 0px 3px 0 rgba(0,0,0,0.4);
@@ -91,6 +95,7 @@ a:visited { color: #572F0E; }
 
 .sidebar > .nav li {
 	z-index: 15;
+	margin-top: 1px;
 }
 
 
@@ -110,7 +115,7 @@ a:visited { color: #572F0E; }
  */
 
 .principal #hideBtn {
-	position: absolute;
+	position: fixed;
 	margin-top: 40px;
 	margin-left: -10px;
 	padding: 2px;
@@ -156,7 +161,7 @@ a:visited { color: #572F0E; }
 	box-shadow: 0 2px 10px 0px rgba(0,0,0,0.9);
 }
 
-.principal section>article, .principal section>h3 {
+.principal section>article, .principal section>h4 {
 	padding: 0 10px 0 10px;
 	margin-top: 10px;
 }
@@ -227,6 +232,79 @@ header.titre .menu > *:hover {
 	padding: 5px;
 }
 
+#personDocs {
+	padding: 10px 0;
+	text-align: center;
+}
+
+#personDocs .docsTitle {
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+#personDocs .docFrame {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	background-color: #EADAA7;
+	padding: 10px;
+	margin-right: 10px;
+	height: 110px;
+	width: 100px;
+	border: 1px solid #DACA97;
+	-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+}
+
+#personDocs .docFrame:last-child {
+	padding-top: 30px;
+	background-color: #E3DED7;
+	-webkit-transition: background 500ms;
+	-moz-transition: background 500ms;
+	-ms-transition: background 500ms;
+	-o-transition: background 500ms;
+	transition: background 500ms;
+}
+
+#personDocs .docFrame:hover {
+	background-color: #E0CA97;
+}
+
+#personDocs .docFrame:last-child:hover {
+	background-color: #EADAA7;
+}
+
+#personDocs .docFrame img {
+	min-width: 50px;
+	height: 75px;
+	max-width: 80px;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 3px;
+}
+
+#personDocs .noDoc {
+	display: inline-block;
+	margin-top: 40px;
+	margin-right: 20px;
+	font-style: italic;
+}
+
+#personId b, #personDocs b {
+	color: #666;
+}
+
+/*
+	================ Pages Document ================
+ */
+
+#docPage .row {
+	text-align: center;
+	padding: 10px 0;
+}
+
+
 /*
 	================ Utilitaires ================
  */
@@ -234,6 +312,12 @@ header.titre .menu > *:hover {
 .h-separ {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #FFF;
+}
+
+.overme {
+    overflow:hidden; 
+    white-space:nowrap; 
+    text-overflow: ellipsis;
 }
 
 /*

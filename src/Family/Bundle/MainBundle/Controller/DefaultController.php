@@ -32,7 +32,18 @@ class DefaultController extends Controller
 
     public function myFamilyAction()
     {
-        return $this->render('FamilyMainBundle:Default:myFamily.html.twig');
+        $id = $this->getUser()->getPerson()->getFamily()->getId();
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $persons = $em->getRepository('FamilyTreeBundle:Person')->findByFamilyOrderedByName($id);
+
+        if (!$persons) {
+            throw $this->createNotFoundException('Unable to find Family members.');
+        }
+
+        return $this->render('FamilyMainBundle:Default:myFamily.html.twig', array(
+            'persons'      => $persons,
+        ));
     }
 
     public function familyAction($id)
@@ -43,6 +54,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
 
             $family = $em->getRepository('FamilyTreeBundle:Family')->find($id);
+            $persons = $em->getRepository('FamilyTreeBundle:Person')->findByFamilyOrderedByName($id);
 
             if (!$family) {
                 throw $this->createNotFoundException('Unable to find Family entity.');
@@ -50,6 +62,7 @@ class DefaultController extends Controller
 
             return $this->render('FamilyMainBundle:Default:family.html.twig', array(
                 'family'      => $family,
+                'persons'     => $persons
             ));
         }
     }
@@ -87,12 +100,15 @@ class DefaultController extends Controller
 
         $person = $em->getRepository('FamilyTreeBundle:Person')->find($id);
 
+        $documents = $em->getRepository('FamilyTreeBundle:Document')->findAll();
+
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person entity.');
         }
 
         return $this->render('FamilyMainBundle:Default:person.html.twig', array(
             'person'      => $person,
+            'documents'   => $documents
         ));
     }
 }

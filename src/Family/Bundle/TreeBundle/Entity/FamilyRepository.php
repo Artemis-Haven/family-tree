@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class FamilyRepository extends EntityRepository
 {
+	public function findOrderedByName($familyId)
+    {
+	    /*return $this->getEntityManager()
+		    ->createQuery('SELECT p FROM FamilyTreeBundle:Person p WHERE p.family = :id ORDER BY p.lastName, p.firstName ASC')
+		    ->setParameter('id', $id)
+		    ->getResult();*/
+
+		$repository = $this->getDoctrine()->getRepository('FamilyTreeBundle:Person');
+        $query = $repository->createQueryBuilder('p')
+	        ->where('p.family = :id')
+	        ->orderBy('p.lastName, p.firstName', 'ASC')
+	        ->setParameter('id', $id)
+	        ->getQuery();
+        return $query->getResult();
+	}
 }

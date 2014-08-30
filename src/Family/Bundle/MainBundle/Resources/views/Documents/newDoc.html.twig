@@ -1,0 +1,16 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Ajouter un nouveau document
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{ path('family_main_person', {'id': person.id}) }}">Revenir</a>
+{% endblock %}
+
+{% block principal %}
+	<article id="docPage">
+	{{ form(form) }}
+
+	</article>
+{% endblock %}
