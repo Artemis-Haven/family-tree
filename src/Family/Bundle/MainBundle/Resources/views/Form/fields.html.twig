@@ -1,11 +1,36 @@
 {% block form_row %}
     {% spaceless %}
 	<div class="form-group">
-		{{ form_label(form, null, { 'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label', 'for': form.vars.id} }) }}
-		<div class="col-sm-8">
+		{{ form_label(form, null, { 'label_attr': {'class': 'col-sm-4 control-label', 'for': form.vars.id} }) }}
+		<div class="col-sm-5">
+			{% set widget = widget|default('text') %}
+			{% if widget == 'choice' %}
+			{{ form_widget(form) }}
+			{% else %}
 			{{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+			{% endif %}
 		</div>
-		<span class="help-block">{{ form_errors(form) }}</span>
+		{% if form_errors(form) %}
+		<div class="col-sm-5 col-sm-offset-5">
+			<span class="help-block">{{ form_errors(form) }}</span>
+		</div>
+		{% endif %}
 	</div>
     {% endspaceless %}
 {% endblock form_row %}
+
+
+{% block checkbox_widget %}
+{% spaceless %}
+	<input type="checkbox" {{ block('widget_attributes') }} style="width:20px;" 
+	{% if value is defined %} value="{{ value }}"{% endif %}
+	{% if checked %} checked="checked"{% endif %} />
+{% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block button_widget -%}
+{% if label is empty -%}
+{% set label = name|humanize %}
+{%- endif -%}
+<button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget %}

@@ -1,19 +1,46 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
 
 {% block titre %}
-	Page d'accueil
+	KinLedger
 {% endblock %}
 
 {% block soustitre %}
-	Sous-titre
+	Généalogie sociale de père en fils depuis 1947.
 {% endblock %}
 
 {% block principal %}
-	Texte de la page d'accueil <br>
+	{#Texte de la page d'accueil <br>
 	<br>
 	Cookies <br>
 	{% for cookie, val in app.request.cookies %}
 		{{ cookie }} : {{ val }} <br>
 	{% endfor %}
+
+	<div class="h-separ"></div>#}
+
+	{# Si la personne est connectée mais qu'elle n'appartient à aucune famille #}
+	{% if app.user and app.user.person is null %}
+	Vous êtes inscrit mais vous ne faites partie d'aucune famille. <br><br>
+	Créez dès à présent <a href="">votre arbre généalogique</a>. <br><br>
+	Vous pouvez aussi saisir un code d'accès pour rejoindre une famille existante, ou pour associer directement votre compte à une fiche existante dans un arbre.
+	<form class="form-horizontal" role="form" action="{{  path('family_main_homepage') }}" method="post" {{ form_enctype(form) }}>
+		<div class="form-group">
+			<label for="{{form.code.vars.id}}" class="col-sm-3 control-label">Code d'accès </label>
+			<div class="col-sm-5">
+				{{ form_widget(form.code, { 'attr': {'class': 'form-control'} }) }}
+			</div>
+			<div class="col-sm-2">
+				<input class="btn btn-default" type="submit" value="Valider" />
+			</div>
+			{% if error %}
+			<div class="col-sm-5 col-sm-offset-3">
+				<span class="help-block">{{ error }}</span>
+			</div>
+			{% endif %}
+			{{form_rest(form)}}
+		</div>
+	</form>
+	{% endif %}
 
 {% endblock %}

@@ -12,9 +12,12 @@
         <li {% if app.request.attributes.get('_route') == 'family_main_allFamilies' %} class="active"{% endif %}>
             <a href="{{ path('family_main_allFamilies') }}">Toutes les familles</a>
         </li>
-        {% if app.user %}
+        {% if app.user and app.user.person %}
         <li {% if app.request.attributes.get('_route') == 'family_main_myFamily' %} class="active"{% endif %}>
             <a href="{{ path('family_main_myFamily') }}">Ma famille</a>
+        </li>
+        <li {% if app.request.attributes.get('_route') == 'family_main_myPerson' %} class="active"{% endif %}>
+            <a href="{{ path('family_main_myPerson') }}">Ma fiche</a>
         </li>
         {% endif %}
         <li>

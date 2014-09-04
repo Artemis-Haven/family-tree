@@ -14,25 +14,48 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $isAlive = ($options['data']->getDeathDate() != null);
+        $lastName = $options['data']->getSex() == 'F' ? 'Nom de jeune fille' : 'Nom de famille';
         $builder
-            ->add('family')
-            ->add('firstName')
-            ->add('middleNames')
-            ->add('lastName')
-            ->add('surName')
-            ->add('sex')
+            ->add('firstName', 'text', array(
+                'label'    => 'Prénom',
+                'required' => false
+            ))
+            ->add('middleNames', 'text', array(
+                'label'    => 'Autres prénoms',
+                'required' => false
+            ))
+            ->add('lastName', 'text', array(
+                'label'    => $lastName,
+                'required' => false
+            ))
+            ->add('surName', 'text', array(
+                'label'    => 'Surnoms ou titres',
+                'required' => false
+            ))
             ->add('birthDate', 'date', array(
-                    'input'  => 'datetime',
-                    'widget' => 'text',
-                    'required' => false
-                ))
+                'input'    => 'datetime',
+                'widget'   => 'choice',
+                'years'    => range(1700, 2014),
+                'label'    => 'Date de naissance',
+                'required' => false
+            ))
+            ->add('isAlive', 'checkbox', array(
+                'label'     => 'Personne décédée',
+                'required'  => false,
+                'mapped'    => false,
+                'data'      => $isAlive,
+            ))
             ->add('deathDate', 'date', array(
-                    'input'  => 'datetime',
-                    'widget' => 'text',
-                    'required' => false
-                ))
-            ->add('parentsRelation')
-            ->add('notes')
+                'input'    => 'datetime',
+                'widget'   => 'choice',
+                'years'    => range(1700, 2014),
+                'label'    => 'Date du déces',
+                'required' => false,
+            ))
+            ->add('notes', 'textarea', array(
+                'required' => false, 
+            ))
         ;
     }
     

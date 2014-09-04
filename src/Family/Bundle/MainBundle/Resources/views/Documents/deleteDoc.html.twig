@@ -1,0 +1,38 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Supprimer le document ?
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{ path('family_main_document_show', {'id': doc.id}) }}">Revenir</a>
+{% endblock %}
+
+{% block principal %}
+	<article id="docPage">
+		
+		<div class="row">
+			Êtes-vous certain de vouloir supprimer ce document ?
+			<br><br>
+			{{form_start(form)}}
+				<a class="btn btn-default" href="{{ path('family_main_document_show', {'id': doc.id}) }}">
+					Annuler et revenir
+				</a>
+				ou bien
+				<button type="submit" class="btn btn-default">
+					Valider la suppression <span class="glyphicon glyphicon-trash small"></span>
+				</button>
+			{{form_end(form)}}
+		</div>
+
+		<div id="imgRow" class="row">
+			<div class="col-md-12">
+				<a href="{{ asset(doc.webPath) }}">
+					<img src="{{ asset(doc.webPath) }}" alt="{{ doc.name }}" 
+						title="Cliquez pour agrandir" class="img-thumbnail">
+				</a>
+			</div>
+		</div>
+
+	</article>
+{% endblock %}

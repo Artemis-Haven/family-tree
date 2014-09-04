@@ -23,9 +23,13 @@
 			<a class="btn btn-default" href="{{ path('family_main_document_download', {'id': doc.id}) }}">
 				Télécharger le document <span class="glyphicon glyphicon-download-alt small"></span>
 			</a>
-			ou bien
+			ou
 			<a class="btn btn-default" href="{{ path('family_main_document_edit', {'id': doc.id}) }}">
 				Modifier les informations <span class="glyphicon glyphicon-pencil small"></span>
+			</a>
+			ou bien
+			<a class="btn btn-default" href="{{ path('family_main_document_delete', {'id': doc.id}) }}">
+				Supprimer le document <span class="glyphicon glyphicon-trash small"></span>
 			</a>
 		</div>
 

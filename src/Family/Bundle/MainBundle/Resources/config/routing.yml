@@ -3,7 +3,7 @@ family_main_homepage:
     defaults: { _controller: FamilyMainBundle:Default:index }
 
 family_main_allFamilies:
-    pattern:  /families
+    pattern:  /familles
     defaults: { _controller: FamilyMainBundle:Default:allFamilies }
 
 family_main_myFamily:
@@ -28,11 +28,31 @@ family_main_person:
     requirements:
         id:  \d+
 
+family_main_myPerson:
+    pattern:  /ma-fiche
+    defaults: { _controller: FamilyMainBundle:Default:myPerson }
+
+family_main_person_edit:
+    pattern:  /personne/{id}/edit
+    defaults: { _controller: FamilyMainBundle:Default:editPerson }
+    requirements:
+        id:  \d+
+
+family_main_person_new:
+    pattern:  /personne/new
+    defaults: { _controller: FamilyMainBundle:Default:newPerson }
+
 family_main_ajax:
     resource: "ajax-routing.yml"
     prefix:   /AJAX/
     requirements:
         _method:  POST
+
+family_main_document_new:
+    pattern:  /document/new/{personId}
+    defaults: { _controller: FamilyMainBundle:Document:newDoc }
+    requirements:
+        personId:  \d+
 
 family_main_document_show:
     pattern:  /document/{id}
@@ -52,8 +72,8 @@ family_main_document_edit:
     requirements:
         id:  \d+
 
-family_main_document_new:
-    pattern:  /document/new/{personId}
-    defaults: { _controller: FamilyMainBundle:Document:newDoc }
+family_main_document_delete:
+    pattern:  /document/{id}/delete
+    defaults: { _controller: FamilyMainBundle:Document:deleteDoc }
     requirements:
         personId:  \d+

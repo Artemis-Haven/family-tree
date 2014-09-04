@@ -3,11 +3,40 @@
 {% block titre %}Toutes les familles{% endblock %}
 
 {% block principal %}
-	Liste des familles :
-	<br>
-	{% for family in families %}
-		<a href="{{ path('family_main_family', {'id' : family.id} ) }}">{{ family }}</a>
-		<br>
-	{% endfor %}
+	<article>
+		{% for family in families %}
+		<div id="namesCloudContainer-{{family.id}}" class="namesCloudContainer">
+		{{ render(controller('FamilyMainBundle:Default:familyNamesCloud', { 'id': family.id })) }}
+		</div>
+		{% endfor %}
+	</article>
+	
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/jquery.awesomeCloud.min.js') }}"></script>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		settings = {
+			"size" : {
+				"grid" : 9,
+				"factor" : 1,
+			},
+			"options" : {
+				"color" : "random-dark",
+				"rotationRatio" : 0.35
+			},
+			"font" : "'Times New Roman', Times, serif",
+			"shape" : "circle"
+		};
+		{% for family in families %}
+		$( "#namesCloudContainer-{{family.id}}" ).awesomeCloud( settings );
+		$( "#namesCloudContainer-{{family.id}}" ).click(function() { 
+			window.location.href = "{{ path('family_main_family', {'id' : family.id}) }}";
+		});
+		{% endfor %}
+	});
+</script>
 {% endblock %}

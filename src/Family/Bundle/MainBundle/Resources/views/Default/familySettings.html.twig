@@ -14,7 +14,7 @@
 		{{ form_row(form.name) }}
 		{{ form_row(form.privacy) }}
 		<div class="form-group">
-			<small id="privacyDetails" class="col-sm-8 col-sm-offset-3">
+			<small id="privacyDetails" class="col-sm-8 col-sm-offset-2">
 			    <span>
 			    	<strong>Tout public</strong> : 
 			    	Tout le monde a accès à la liste des membres, à l'arbre et aux fiches des membres. <br>
@@ -36,10 +36,11 @@
 	    </div>
 		{{ form_rest(form) }}
 		<div class="form-group">
-			<div class="col-sm-8 col-sm-offset-3">
+			<div class="col-sm-8 col-sm-offset-4">
 				<input class="btn btn-default" type="submit" value="Enregistrer les modifications" />
 			</div>
 		</div>
+
 	</form>
 
 {% endblock %}

@@ -6,7 +6,7 @@
 
 {% block soustitre %}
 <a href="{{  path('family_main_family', {'id' : person.family.id} ) }}">Revenir à la famille</a>
-<a href="#" class="pull-right">Modifier les informations</a>
+<a href="{{  path('family_main_person_edit', {'id' : person.id} ) }}" class="pull-right">Modifier les informations</a>
 {% endblock %}
 
 {% block principal %}

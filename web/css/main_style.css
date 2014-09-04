@@ -12,16 +12,16 @@ body {
 	margin-right: auto;
 }
 
-a { color: #773F1E; }
-a:hover, a:focus { color: #572F0E; }
-a:visited { color: #572F0E; }
+a, button.btn, input.btn[type="submit"] { color: #773F1E; }
+a:hover, a:focus, button.btn:hover, button.btn:focus { color: #572F0E; }
+a:visited, button.btn:visited { color: #572F0E; }
 
 /*
 	================ Barre latérale gauche ================
  */
 
 .sidebar {
-	padding: 5px 0 10px 10px;
+	padding: 5px 0 10px 15px;
 	position: fixed;
 	z-index: 10;
 	max-width: 330px;
@@ -96,6 +96,10 @@ a:visited { color: #572F0E; }
 .sidebar > .nav li {
 	z-index: 15;
 	margin-top: 1px;
+}
+
+.sidebar > .nav li:first-child {
+	margin-top: 0px;
 }
 
 
@@ -254,16 +258,16 @@ header.titre .menu > *:hover {
 	border: 1px solid #DACA97;
 	-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
-}
-
-#personDocs .docFrame:last-child {
-	padding-top: 30px;
-	background-color: #E3DED7;
 	-webkit-transition: background 500ms;
 	-moz-transition: background 500ms;
 	-ms-transition: background 500ms;
 	-o-transition: background 500ms;
 	transition: background 500ms;
+}
+
+#personDocs .docFrame:last-child {
+	padding-top: 30px;
+	background-color: #E3DED7;
 }
 
 #personDocs .docFrame:hover {
@@ -304,6 +308,19 @@ header.titre .menu > *:hover {
 	padding: 10px 0;
 }
 
+/*
+	================ Pages Document ================
+ */
+
+.namesCloudContainer {
+	height: 300px;
+	width: 300px;
+}
+
+.namesCloudContainer:hover {
+	background-color: #E3DED7;
+	cursor: pointer;
+}
 
 /*
 	================ Utilitaires ================

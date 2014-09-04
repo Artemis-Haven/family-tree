@@ -76,6 +76,38 @@ class DocumentController extends Controller
         ));
     }
 
+    public function deleteDocAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $document = $em->getRepository('FamilyTreeBundle:Document')->find($id);
+
+        if (!$document) {
+            throw $this->createNotFoundException('Unable to find Document entity.');
+        }
+
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('family_main_document_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $person = $document->getPerson();
+            $em->remove($document);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('family_main_person', array('id' => $person->getId())));
+        }
+
+        return $this->render('FamilyMainBundle:Documents:deleteDoc.html.twig', array(
+            'doc' => $document,
+            'form'   => $form->createView(),
+        ));
+    }
+
     public function newDocAction(Request $request, $personId)
     {
         $document = new Document();
@@ -91,7 +123,6 @@ class DocumentController extends Controller
         $form = $this->createFormBuilder($document)
             ->add('name', 'text', array('label' => 'Donnez un nom à votre document'))
             ->add('file', 'file', array('label' => 'Sélectionnez un fichier'))
-            ->add('submit', 'submit', array('label' => 'Valider'))
             ->getForm();
 
         $form->handleRequest($request);

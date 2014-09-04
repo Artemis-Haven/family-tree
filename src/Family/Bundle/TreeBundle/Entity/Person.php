@@ -28,7 +28,7 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=255)
+     * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
      */
     private $firstName;
 
@@ -42,7 +42,7 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=255)
+     * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
      */
     private $lastName;
 
@@ -56,7 +56,7 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="sex", type="string", length=1)
+     * @ORM\Column(name="sex", type="string", length=1, nullable=true)
      */
     private $sex;
 
@@ -301,8 +301,8 @@ class Person
      */
     public function setDeathDate($deathDate)
     {
-        if ( $deathDate >= new \DateTime("now") ) {
-            throw new \InvalidArgumentException("DeathDate can't be in the future.");
+        if ( $deathDate >= new \DateTime("now")) {
+            throw new \InvalidArgumentException("Death date can't be in the future.");
         }
         $this->deathDate = $deathDate;
 
@@ -436,28 +436,29 @@ class Person
         $brothersSisters = new \Doctrine\Common\Collections\ArrayCollection();
         $allChildrenOfParents = array();
 
-        // On récupère toutes les relations des deux parents
-        $relations = array_merge($this->getParentsRelation()->getFirstPerson()->getRelations()->toArray(), 
-                                 $this->getParentsRelation()->getSecondPerson()->getRelations()->toArray()
-                                 );
+        if ($this->getParentsRelation() != null) {
+            // On récupère toutes les relations des deux parents
+            $relations = array_merge($this->getParentsRelation()->getFirstPerson()->getRelations()->toArray(), 
+                                     $this->getParentsRelation()->getSecondPerson()->getRelations()->toArray()
+                                     );
 
-        // On stocke tous les enfants de ces relations
-        foreach ( $relations as $relation ) {
-            foreach ($relation->getChildren() as $child) {
-                $allChildrenOfParents[] = $child;
+            // On stocke tous les enfants de ces relations
+            foreach ( $relations as $relation ) {
+                foreach ($relation->getChildren() as $child) {
+                    $allChildrenOfParents[] = $child;
+                }
+            }
+            
+            // On ne garde pas les doublons ni la personne concernée
+            foreach ($allChildrenOfParents as $child) {
+                if (!$brothersSisters->contains($child) and $child != $this) {
+                        // Si le paramètre est renseigné, on ne garde pas ceux du sexe opposé
+                        if ($sex == null or $sex == $child->getSex()) {
+                            $brothersSisters->add($child);
+                        }
+                }
             }
         }
-        
-        // On ne garde pas les doublons ni la personne concernée
-        foreach ($allChildrenOfParents as $child) {
-            if (!$brothersSisters->contains($child) and $child != $this) {
-                    // Si le paramètre est renseigné, on ne garde pas ceux du sexe opposé
-                    if ($sex == null or $sex == $child->getSex()) {
-                        $brothersSisters->add($child);
-                    }
-            }
-        }
-
         return $brothersSisters;
     }
 
@@ -548,6 +549,15 @@ class Person
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function isDatesValid()
+    {
+        if ($this->birthDate != null and $this->deathDate != null) {
+            return ( $this->birthDate <= $this->deathDate );
+        } else {
+            return true;
+        }
     }
 
 }

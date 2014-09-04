@@ -41,4 +41,15 @@ class PersonRepository extends EntityRepository
 	        ->getQuery();
         return $query->getResult();
 	}
+
+	public function findAllFrequenciesForFamily($familyId)
+    {
+        $query = $this->createQueryBuilder('p')
+        	->select('p.lastName, COUNT(p.lastName) as nbr')
+	        ->where('p.family = :id')
+	        ->groupBy('p.lastName')
+	        ->setParameter('id', $familyId)
+	        ->getQuery();
+        return $query->getResult();
+	}
 }

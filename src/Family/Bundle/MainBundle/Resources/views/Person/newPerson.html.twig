@@ -1,0 +1,56 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
+
+{% block titre %}
+	Ajouter une personne
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{  path('family_main_myFamily') }}">Revenir à la famille</a>
+{% endblock %}
+
+{% block principal %}
+	<article>
+
+		<form class="form-horizontal" role="form" 
+			action="{{  path('family_main_person_new', {'familyId' : family.id} ) }}"
+			method="post" {{ form_enctype(form) }}>
+			
+
+			{{ form_row(form.firstName) }}
+			{{ form_row(form.middleNames) }}
+			{{ form_row(form.lastName) }}
+			{{ form_row(form.surName) }}
+			{{ form_row(form.birthDate) }}
+			{{ form_row(form.isAlive) }}
+			<div id="deathDateBlock" style="display:none;">
+			{{ form_row(form.deathDate) }}
+			</div>
+			{{ form_row(form.notes) }}
+
+			{{ form_rest(form) }}
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<input class="btn btn-default" type="submit" value="Valider" />
+				</div>
+			</div>
+		</form>
+	</article>
+	<br>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript">
+	$( '#family_bundle_treebundle_person_isAlive' ).click(function() {
+		if ( $('#family_bundle_treebundle_person_isAlive').is(':checked') ) {
+			$('#deathDateBlock').show();
+		} else {
+			$('#deathDateBlock').hide();
+		}
+	});
+</script>
+
+{% endblock %}

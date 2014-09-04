@@ -1,4 +1,5 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
 
 {% block titre %}
 	Ajouter un nouveau document
@@ -10,7 +11,36 @@
 
 {% block principal %}
 	<article id="docPage">
-	{{ form(form) }}
+
+		<form class="form-horizontal" role="form" 
+			action="{{  path('family_main_document_new', {'personId' : person.id} ) }}"
+			method="post" {{ form_enctype(form) }}>
+			
+			{{ form_row(form.name) }}
+
+		    {% spaceless %}
+			<div class="form-group">
+				{{ form_label(form.file, null, { 'label_attr': {'class': 'col-sm-4 control-label', 'for': form.file.vars.id} }) }}
+				<div class="col-sm-5">
+					{{ form_widget(form.file) }}
+				</div>
+				{% if form_errors(form.file) %}
+				<div class="col-sm-5 col-sm-offset-5">
+					<span class="help-block">{{ form_errors(form.file) }}</span>
+				</div>
+				{% endif %}
+			</div>
+		    {% endspaceless %}
+
+		    {{ form_rest(form) }}
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<input class="btn btn-default" type="submit" value="Valider" />
+				</div>
+			</div>
+		</form>
+
 
 	</article>
 {% endblock %}
