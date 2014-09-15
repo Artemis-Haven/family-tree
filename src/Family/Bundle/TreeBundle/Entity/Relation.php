@@ -12,10 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Relation
 {
-
-    const TYPE_MARRIAGE = 0;
-    const TYPE_FREE = 1;
-    const TYPE_PACS = 2;
+    public static $unionTypeList = array(
+        0 => 'Mariage',
+        1 => 'Union libre',
+        2 => 'PACS'
+    );
 
     /**
      * @var integer
@@ -29,7 +30,7 @@ class Relation
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="integer", nullable=true, options={"default":null})
      */
     private $type;
 
@@ -49,13 +50,13 @@ class Relation
     
     /**
      * @ORM\ManyToOne(targetEntity="Family\Bundle\TreeBundle\Entity\Person", inversedBy="firstPartRelations", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $firstPerson;
     
     /**
      * @ORM\ManyToOne(targetEntity="Family\Bundle\TreeBundle\Entity\Person", inversedBy="secondPartRelations", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $secondPerson;
 
@@ -68,16 +69,18 @@ class Relation
 
 
 
-    public function __construct()
+    public function __construct($firstPerson = null, $secondPerson = null)
     {
         $this->start = null;
-        $this->null = null;
+        $this->end = null;
+        $this->firstPerson = $firstPerson;
+        $this->secondPerson = $secondPerson;
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
     {
-        return "Mariage de " . $this->firstPerson . " et de " . $this->secondPerson;
+        return $this->getTypeStr() . " de " . $this->firstPerson . " et de " . $this->secondPerson;
     }
 
 
@@ -103,7 +106,7 @@ class Relation
      */
     public function setType($type)
     {
-        if (!in_array($type, array(self::TYPE_MARRIAGE, self::TYPE_FREE, self::TYPE_PACS))) {
+        if (!array_key_exists($type, self::$unionTypeList ) and $type != null) {
             throw new \InvalidArgumentException("Invalid 'type of union' parameter.");
         }
         $this->type = $type;
@@ -113,6 +116,20 @@ class Relation
 
     /**
      * Get type
+     *
+     * @return string 
+     */
+    public function getTypeStr()
+    {
+        if (isset($this->type)) {
+            return self::$unionTypeList[$this->type];
+        } else {
+            return "Relation";
+        }
+    }
+
+    /**
+     * Get type index
      *
      * @return integer 
      */
@@ -173,7 +190,7 @@ class Relation
      * @param \Family\Bundle\TreeBundle\Entity\Person $firstPerson
      * @return Relation
      */
-    public function setFirstPerson(\Family\Bundle\TreeBundle\Entity\Person $firstPerson)
+    public function setFirstPerson($firstPerson)
     {
         $this->firstPerson = $firstPerson;
 
@@ -196,7 +213,7 @@ class Relation
      * @param \Family\Bundle\TreeBundle\Entity\Person $secondPerson
      * @return Relation
      */
-    public function setSecondPerson(\Family\Bundle\TreeBundle\Entity\Person $secondPerson)
+    public function setSecondPerson($secondPerson)
     {
         $this->secondPerson = $secondPerson;
 

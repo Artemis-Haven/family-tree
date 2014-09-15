@@ -1,0 +1,25 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Inviter à rejoindre la famille
+{% endblock %}
+
+{% block soustitre %}
+	<a href="{{  path('family_main_family', {'id' : family.id} ) }}">Revenir à la famille</a>
+{% endblock %}
+
+{% block principal %}
+	<article>
+		{% if form is defined %}
+		Afin que vos proches rejoignent votre arbre généalogique et l'enrichissent, communiquez-leur un code d'accès qu'ils saisiront leur de leur inscription sur <em>KinLedger.com</em>.
+		<br>
+		{{form(form)}}
+		{% endif %}
+		{% if accessCode is defined %}
+		Communiquez-leur ce code d'accès. Il leur suffira de le saisir lors de leur inscription pour vous rejoindre.
+		<br>
+		<h2>{{accessCode}}</h2>
+		{% endif %}
+	</article>
+
+{% endblock %}

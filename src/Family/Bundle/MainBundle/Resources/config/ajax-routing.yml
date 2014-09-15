@@ -1,3 +1,7 @@
 family_main_cookie_hideSidebar:
     pattern:  /cookie/hideSidebar
     defaults: { _controller: FamilyMainBundle:Ajax:cookieHideSidebar }
+
+family_main_relation_delete:
+    pattern: /relation/delete
+    defaults: { _controller: FamilyMainBundle:Ajax:deleteRelation }

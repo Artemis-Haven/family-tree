@@ -26,12 +26,22 @@ class AjaxController extends Controller
             $response->headers->setCookie($cookie);
         }
 
-
-
-
-
         // Then we send and return the response
         return $response->send();
+    }
+
+    public function deleteRelationAction() 
+    {
+        $request = $this->container->get('request');
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $relationId = $request->request->get('relationId');
+            $relation = $em->getRepository('FamilyTreeBundle:Relation')->find($relationId);
+            $em->remove($relation);
+            $em->flush();
+        }
+        return new Response("");
     }
 
 }

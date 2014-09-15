@@ -5,6 +5,7 @@ namespace Family\Bundle\TreeBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Family\Bundle\TreeBundle\Entity\Relation;
 
 class PersonType extends AbstractType
 {
@@ -16,6 +17,7 @@ class PersonType extends AbstractType
     {
         $isAlive = ($options['data']->getDeathDate() != null);
         $lastName = $options['data']->getSex() == 'F' ? 'Nom de jeune fille' : 'Nom de famille';
+        $id = $options['data']->getId();
         $builder
             ->add('firstName', 'text', array(
                 'label'    => 'Prénom',
@@ -55,8 +57,16 @@ class PersonType extends AbstractType
             ))
             ->add('notes', 'textarea', array(
                 'required' => false, 
-            ))
-        ;
+            ));
+            if ($options['withMates']) {
+                $builder->add('relations', 'collection', array(
+                    'type' => new MateType($id), 
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
+                ));
+            }
+            $builder->add('parentsRelation',  new ParentsType($id));
     }
     
     /**
@@ -65,7 +75,8 @@ class PersonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Family\Bundle\TreeBundle\Entity\Person'
+            'data_class' => 'Family\Bundle\TreeBundle\Entity\Person',
+            'withMates'  => false
         ));
     }
 

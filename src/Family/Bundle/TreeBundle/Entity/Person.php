@@ -127,13 +127,6 @@ class Person
         $this->parentsRelation = null;
     }
 
-    public function __toString()
-    {
-        return $this->firstName . " " . $this->lastName;
-    }
-
-
-
 
 
 
@@ -168,7 +161,11 @@ class Person
      */
     public function getFirstName()
     {
-        return $this->firstName;
+        if ($this->firstName != null) {
+            return $this->firstName;
+        } else {
+            return "-";
+        }
     }
 
     /**
@@ -214,7 +211,11 @@ class Person
      */
     public function getLastName()
     {
-        return $this->lastName;
+        if ($this->lastName != null) {
+            return $this->lastName;
+        } else {
+            return "-";
+        }
     }
 
     /**
@@ -319,6 +320,20 @@ class Person
         return $this->deathDate;
     }
 
+    public function addRelation(\Family\Bundle\TreeBundle\Entity\Relation $relation)
+    {
+        return $this;
+    }
+
+    public function removeRelation(\Family\Bundle\TreeBundle\Entity\Relation $relation)
+    {
+        if ($this->firstPartRelations->contains($relation)) {
+            $this->removeFirstPartRelation($relation);
+        } else if ($this->secondPartRelations->contains($relation)) {
+            $this->removeSecondPartRelation($relation);
+        }
+    }
+
     public function addFirstPartRelation(\Family\Bundle\TreeBundle\Entity\Relation $firstPartRelation)
     {
         $this->firstPartRelations[] = $firstPartRelation;
@@ -328,6 +343,7 @@ class Person
 
     public function removeFirstPartRelation(\Family\Bundle\TreeBundle\Entity\Relation $firstPartRelation)
     {
+        print_r("removeFirstPartRelation");
         $this->firstPartRelations->removeElement($firstPartRelation);
     }
 
@@ -350,6 +366,7 @@ class Person
 
     public function removeSecondPartRelation(\Family\Bundle\TreeBundle\Entity\Relation $secondPartRelation)
     {
+        print_r("removeSecondPartRelation");
         $this->secondPartRelations->removeElement($secondPartRelation);
     }
 
@@ -438,9 +455,17 @@ class Person
 
         if ($this->getParentsRelation() != null) {
             // On récupère toutes les relations des deux parents
-            $relations = array_merge($this->getParentsRelation()->getFirstPerson()->getRelations()->toArray(), 
-                                     $this->getParentsRelation()->getSecondPerson()->getRelations()->toArray()
-                                     );
+            $frstPers = $this->getParentsRelation()->getFirstPerson();
+            $secPers = $this->getParentsRelation()->getSecondPerson();
+            if ($frstPers and $secPers) {
+                $relations = array_merge($frstPers->getRelations()->toArray(), $secPers->getRelations()->toArray());
+            } else if ($frstPers) {
+                $relations = $frstPers->getRelations()->toArray();
+            } else if ($secPers) {
+                $relations = $secPers->getRelations()->toArray();
+            } else { // Si aucun des parents n'est défini, on prend juste cette relation
+                $relations[] = $this->getParentsRelation();
+            }
 
             // On stocke tous les enfants de ces relations
             foreach ( $relations as $relation ) {
@@ -557,6 +582,15 @@ class Person
             return ( $this->birthDate <= $this->deathDate );
         } else {
             return true;
+        }
+    }
+
+    public function __toString()
+    {
+        if ($this->surName != null) {
+            return $this->firstName . ' "' . $this->surName . '" '. $this->lastName;
+        } else {
+            return $this->firstName . ' '. $this->lastName;
         }
     }
 

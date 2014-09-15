@@ -1,6 +1,4 @@
 {% extends 'FamilyMainBundle:Default:layout.html.twig' %}
-{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
-
 {% block titre %}
 	KinLedger
 {% endblock %}
@@ -21,8 +19,9 @@
 
 	{# Si la personne est connectée mais qu'elle n'appartient à aucune famille #}
 	{% if app.user and app.user.person is null %}
+	{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
 	Vous êtes inscrit mais vous ne faites partie d'aucune famille. <br><br>
-	Créez dès à présent <a href="">votre arbre généalogique</a>. <br><br>
+	Créez dès à présent <a href="{{ path('family_main_family_new') }}">votre arbre généalogique</a>. <br><br>
 	Vous pouvez aussi saisir un code d'accès pour rejoindre une famille existante, ou pour associer directement votre compte à une fiche existante dans un arbre.
 	<form class="form-horizontal" role="form" action="{{  path('family_main_homepage') }}" method="post" {{ form_enctype(form) }}>
 		<div class="form-group">

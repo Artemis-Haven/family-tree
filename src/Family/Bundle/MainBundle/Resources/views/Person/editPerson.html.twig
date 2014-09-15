@@ -13,12 +13,13 @@
 {% endblock %}
 
 {% block principal %}
-	<article>
+	<article id="editPerson">
 
 		<form class="form-horizontal" role="form" 
 			action="{{  path('family_main_person_edit', {'id' : person.id} ) }}"
 			method="post" {{ form_enctype(form) }}>
 			
+			<h4 class="text-center">Informations générales</h4>
 
 			{{ form_row(form.firstName) }}
 			{{ form_row(form.middleNames) }}
@@ -30,6 +31,44 @@
 			{{ form_row(form.deathDate) }}
 			</div>
 			{{ form_row(form.notes) }}
+			
+			<div class="h-separ"></div>
+
+			<h4 class="text-center">Relations</h4>
+
+			{{ form_errors(form.relations) }}
+
+			<ul id="relation-list" data-prototype="{{ form_widget(form.relations.vars.prototype) | e }}">
+				{% for relation in form.relations %}	
+				{% spaceless %}
+				<li id="relation-{{relation.vars.value.id}}">
+					<button class="pull-right btn btn-link glyphicon glyphicon-remove" type="button" 
+					title="Supprimer" id="remove-relation-btn-{{loop.index0}}" onclick="removeRelation(this);"></button>
+					{% if relation.firstPerson is defined %}
+					{{ form_row(relation.firstPerson) }}
+					{% else %}
+					{{ form_row(relation.secondPerson) }}
+					{% endif %}
+					{{ form_row(relation.type) }}
+					{{ form_row(relation.start) }}
+					{{ form_row(relation.isFinished) }}
+					<div id="endDateBlock-{{loop.index0}}" {% if not relation.isFinished.vars.data %} style="display:none;" {% endif %}>
+					{{ form_row(relation.end) }}
+					</div>
+				</li>
+			    {% endspaceless %}
+			    <div class="h-separ" style="width:600px;margin:auto;"></div>
+				{% endfor %}
+		    </ul>
+
+			<a href="#" class="col-md-offset-4" id="add-another-relation">Ajouter une relation.</a>
+			<br><br>
+			<div class="h-separ"></div>
+
+			<h4 class="text-center">Parents</h4>
+
+			{{ form_row(form.parentsRelation.firstPerson) }}
+			{{ form_row(form.parentsRelation.secondPerson) }}
 
 			{{ form_rest(form) }}
 
@@ -47,6 +86,15 @@
 {{ parent() }}
 
 <script type="text/javascript">
+	$( "input[id^='family_bundle_treebundle_person_relations'][id$='isFinished']" ).click(function() {
+		var id = $(this).attr('id').replace('family_bundle_treebundle_person_relations_', '').replace('_isFinished', '');
+		if ( $(this).is(':checked') ) {
+			$('#endDateBlock-' + id).show();
+		} else {
+			$('#endDateBlock-' + id).hide();
+		}
+	});
+
 	$( '#family_bundle_treebundle_person_isAlive' ).click(function() {
 		if ( $('#family_bundle_treebundle_person_isAlive').is(':checked') ) {
 			$('#deathDateBlock').show();
@@ -54,6 +102,62 @@
 			$('#deathDateBlock').hide();
 		}
 	});
+
+	function removeRelation(obj){
+		if (confirm("Souhaitez-vous vraiment supprimer la relation suivante : ")) {
+			var id = $(obj).parent().attr('id');
+			if (id && $.isNumeric(id.replace('relation-', ''))) {
+				$.ajax({
+					type: "POST",
+					url: "{{ path('family_main_relation_delete') }}",
+					data: 'relationId=' + id,
+					cache: false,
+				}); 
+			};
+			$(obj).parent().next().remove();
+			$(obj).parent().next().remove();
+			$(obj).parent().remove();
+		}
+	}
+
+	//$( "button[id^='remove-relation-btn']" ).click(function(){removeRelation(this)});
+
+	// garde une trace du nombre de champs relation qui ont été affichés
+    var relationCount = '{{ form.relations | length }}';
+
+    $(document).ready(function() {
+        $('#add-another-relation').click(function() {
+            var relationList = $('#relation-list');
+
+            var newWidget = '<button class="pull-right btn btn-link glyphicon glyphicon-remove" type="button" title="Supprimer" id="remove-relation-btn-'+relationCount+'" onclick="removeRelation(this);"></button>';
+            // parcourt le template prototype
+            newWidget += relationList.attr('data-prototype');
+            // remplace les "__name__" utilisés dans l'id et le nom du prototype
+            // par un nombre unique pour chaque relation
+            // le nom de l'attribut final ressemblera à name="contact[relations][2]"
+            newWidget = newWidget.replace(/__name__/g, relationCount);
+
+            // créer une nouvelle liste d'éléments et l'ajoute à notre liste
+            var newLi = $('<li></li>').html(newWidget);
+            newLi.appendTo($('#relation-list'));
+            $('#relation-list').append('<div class="h-separ" style="width:600px;margin:auto;"></div>');
+            $('#family_bundle_treebundle_person_relations_'+relationCount+'_end')
+            	.parents('.form-group').wrapAll('<div style="display:none;" />');
+
+            $( '#family_bundle_treebundle_person_relations_' + relationCount +'_isFinished' ).parents()
+
+			$( '#family_bundle_treebundle_person_relations_' + relationCount +'_isFinished' ).click(function() {
+				if ( $(this).is(':checked') ) {
+					$('#endDateBlock-' + relationCount).show();
+				} else {
+					$('#endDateBlock-' + relationCount).hide();
+				}
+			});
+            relationCount++;
+
+            return false;
+        });
+    })
 </script>
 
 {% endblock %}

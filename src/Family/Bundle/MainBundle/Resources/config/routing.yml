@@ -16,6 +16,10 @@ family_main_family:
     requirements:
         id:  \d+
 
+family_main_family_new:
+    pattern:  /famille/new
+    defaults: { _controller: FamilyMainBundle:Default:newFamily }
+
 family_main_familySettings:
     pattern:  /famille/{id}/options
     defaults: { _controller: FamilyMainBundle:Default:familySettings }
@@ -31,6 +35,10 @@ family_main_person:
 family_main_myPerson:
     pattern:  /ma-fiche
     defaults: { _controller: FamilyMainBundle:Default:myPerson }
+
+family_main_userSettings:
+    pattern:  /ma-fiche/options
+    defaults: { _controller: FamilyUserBundle:Default:userSettings }
 
 family_main_person_edit:
     pattern:  /personne/{id}/edit
@@ -76,4 +84,8 @@ family_main_document_delete:
     pattern:  /document/{id}/delete
     defaults: { _controller: FamilyMainBundle:Document:deleteDoc }
     requirements:
-        personId:  \d+
+        id:  \d+
+
+family_main_familyAccessCode_new:
+    pattern:  /ma-famille/invitation
+    defaults: { _controller: FamilyMainBundle:Default:generateFamilyAccessCode }

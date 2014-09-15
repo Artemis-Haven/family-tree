@@ -300,6 +300,32 @@ header.titre .menu > *:hover {
 }
 
 /*
+	================ Page Editer une personne ================
+ */
+
+#editPerson #relation-list > li {
+	padding: 5px 0;
+	margin: 0 auto;
+}
+
+#editPerson #relation-list > li:hover {
+	background-color: #E3DED7;
+}
+
+#editPerson #relation-list > li > .glyphicon-remove {
+	color: #A77F5E;
+	text-decoration: none;
+}
+
+#editPerson #relation-list > li > .glyphicon-remove:hover {
+	color: #773F1E;
+}
+
+#editPerson #relation-list > .h-separ:last-child {
+	display: none;
+}
+	
+/*
 	================ Pages Document ================
  */
 
@@ -309,12 +335,13 @@ header.titre .menu > *:hover {
 }
 
 /*
-	================ Pages Document ================
+	================ Page Toutes les familles ================
  */
 
 .namesCloudContainer {
 	height: 300px;
 	width: 300px;
+	display: inline-block;
 }
 
 .namesCloudContainer:hover {
@@ -329,6 +356,13 @@ header.titre .menu > *:hover {
 .h-separ {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #FFF;
+}
+
+.v-separ {
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #FFF;
+	display: inline-block;
+	margin: 0 5px;
 }
 
 .overme {

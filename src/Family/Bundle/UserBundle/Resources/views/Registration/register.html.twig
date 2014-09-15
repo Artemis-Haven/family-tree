@@ -1,4 +1,5 @@
 {% extends 'FamilyUserBundle::layout.html.twig' %}
+{% form_theme form with 'FamilyMainBundle:Form:fields.html.twig' %}
  
 {% trans_default_domain 'FOSUserBundle' %}
 
@@ -15,7 +16,7 @@
 
 {% block fos_user_content %}
 
-    {% include 'FOSUserBundle:Registration:register_content.html.twig' %}
+    {% include 'FamilyUserBundle:Registration:register_content.html.twig' %}
 
 {% endblock %}
 

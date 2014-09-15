@@ -1,0 +1,19 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Options du compte
+{% endblock %}
+
+{% block soustitre %}
+<a href="{{  path('family_main_person', {'id' : app.user.person.id} ) }}">Revenir</a>
+{% endblock %}
+
+{% block principal %}
+	<article>
+		Quitter la famille. <br>
+		formulaire de edit de user : <br>
+		- editer pseudo <br>
+		- editer email <br>
+		
+	</article>
+{% endblock %}

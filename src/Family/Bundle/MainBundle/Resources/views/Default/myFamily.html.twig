@@ -6,9 +6,17 @@
 
 {% block soustitre %}
 	Les membres de ma famille :
-	<a title="Options" href="{{  path('family_main_familySettings', {'id' : app.user.person.family.id} ) }}" class="pull-right">
-		<span class="glyphicon glyphicon-cog"></span>
-	</a>
+	<span class="pull-right">
+		{% spaceless %}
+		<a href="{{  path('family_main_familyAccessCode_new') }}" title="Inviter des personnes à rejoindre votre famille">
+			<span class="glyphicon glyphicon-envelope"></span>
+		</a>
+		{% endspaceless %}
+		<div class="v-separ" style="height:18px;"></div>
+		<a title="Options" href="{{  path('family_main_familySettings', {'id' : app.user.person.family.id} ) }}">
+			<span class="glyphicon glyphicon-cog"></span>
+		</a>
+	</span>
 {% endblock %}
 
 {% block principal %}

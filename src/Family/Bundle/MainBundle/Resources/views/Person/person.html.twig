@@ -6,7 +6,17 @@
 
 {% block soustitre %}
 <a href="{{  path('family_main_family', {'id' : person.family.id} ) }}">Revenir à la famille</a>
-<a href="{{  path('family_main_person_edit', {'id' : person.id} ) }}" class="pull-right">Modifier les informations</a>
+<span class="pull-right">
+	<a href="{{  path('family_main_person_edit', {'id' : person.id} ) }}">
+		Modifier les informations
+	</a>
+	{% if app.user.person == person %}
+	<div class="v-separ" style="height:18px;"></div>
+	<a title="Mes options" href="{{ path('family_main_userSettings') }}">
+		<span class="glyphicon glyphicon-cog"></span>
+	</a>
+	{% endif %}
+</span>
 {% endblock %}
 
 {% block principal %}
@@ -14,23 +24,33 @@
 		{% if person.parentsRelation %}
 		{% set frstPers = person.parentsRelation.firstPerson %}
 		{% set secPers = person.parentsRelation.secondPerson %}
+		{% if frstPers or secPers %}
 		<div id="parentsGen" class="row">
 			<div class="col-md-5 col-sm-6 col-xs-6">
 				<div id="parent1">
-					<b>{% if frstPers.sex == "F" %}Mère{% else %}Père{% endif %}</b>
+					{% if frstPers %}
+					<b>{% if frstPers.sex == "F" %}Mère{% elseif frstPers.sex == "M" %}Père{% else %}Parent{% endif %}</b>
 					<br>
 					<a href="{{ path('family_main_person', {'id': frstPers.id}) }}">{{ frstPers }}</a>
+					{% else %}
+					<b>Parent 1</b>
+					{% endif %}
 				</div>
 			</div>
 			<div style="visibility:hidden;" class="col-md-2 visible-md-block visible-lg-block" ></div>
 			<div class="col-md-5 col-sm-6 col-xs-6">
 				<div id="parent2">
-					<b>{% if secPers.sex == "F" %}Mère{% else %}Père{% endif %}</b>
+					{% if secPers %}
+					<b>{% if secPers.sex == "F" %}Mère{% elseif secPers.sex == "M" %}Père{% else %}Parent{% endif %}</b>
 					<br>
 					<a href="{{ path('family_main_person', {'id': secPers.id}) }}">{{ secPers }}</a>
+					{% else %}
+					<b>Parent 2</b>
+					{% endif %}
 				</div>
 			</div>
 		</div>
+		{% endif %}
 		{% endif %}
 		
 		<div id="thisGen" class="row">

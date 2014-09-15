@@ -48,8 +48,56 @@ class PersonRepository extends EntityRepository
         	->select('p.lastName, COUNT(p.lastName) as nbr')
 	        ->where('p.family = :id')
 	        ->groupBy('p.lastName')
+	        ->orderBy('nbr', 'desc')
+	        ->setMaxResults(40)
 	        ->setParameter('id', $familyId)
 	        ->getQuery();
         return $query->getResult();
+	}
+
+	public function countForFamily($familyId)
+    {
+        $query = $this->createQueryBuilder('p')
+        	->select('COUNT(p)')
+	        ->where('p.family = :id')
+	        ->setParameter('id', $familyId)
+	        ->getQuery();
+        return $query->getSingleScalarResult();
+	}
+
+	public function getPotentialMatesQB($id)
+	{
+		$person = $this->createQueryBuilder('p')
+	        ->where('p.id = :id')
+	        ->setParameter('id', $id)
+	        ->getQuery()->getSingleResult();
+
+        return $this->createQueryBuilder('p')
+	        ->where('p.id != :id')
+	        ->andWhere('p.id != :id')
+	        ->andWhere('p.family = :family')
+	        /*->andWhere("p.birthDate > DATE_ADD(:bd,1200, 'month')")
+	        ->andWhere("NOT DATE_SUB(p.birthDate,120, 'month') > :dd")
+	        ->andWhere("NOT p.deathDate > DATE_ADD(:bd,120, 'month')")
+	        ->andWhere("NOT p.deathDate < DATE_ADD(:dd,1200, 'month')")*/
+	        ->setParameter('id', $id)
+	        ->setParameter('family', $person->getFamily()->getId())
+	        /*->setParameter('bd', $person->getBirthDate())
+	        ->setParameter('dd', $person->getDeathDate())*/;
+	}
+
+	public function getPotentialParentsQB($id)
+	{
+		$person = $this->createQueryBuilder('p')
+	        ->where('p.id = :id')
+	        ->setParameter('id', $id)
+	        ->getQuery()->getSingleResult();
+
+        return $this->createQueryBuilder('p')
+	        ->where('p.id != :id')
+	        ->andWhere('p.id != :id')
+	        ->andWhere('p.family = :family')
+	        ->setParameter('id', $id)
+	        ->setParameter('family', $person->getFamily()->getId());
 	}
 }
