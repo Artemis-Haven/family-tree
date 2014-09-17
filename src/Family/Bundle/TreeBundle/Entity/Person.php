@@ -345,6 +345,7 @@ class Person
     {
         print_r("removeFirstPartRelation");
         $this->firstPartRelations->removeElement($firstPartRelation);
+        $firstPartRelation->setFirstPerson(null);
     }
 
     /**
@@ -368,6 +369,7 @@ class Person
     {
         print_r("removeSecondPartRelation");
         $this->secondPartRelations->removeElement($secondPartRelation);
+        $secondPartRelation->setSecondPerson(null);
     }
 
     /**

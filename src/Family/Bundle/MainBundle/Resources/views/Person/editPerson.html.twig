@@ -21,6 +21,8 @@
 			
 			<h4 class="text-center">Informations générales</h4>
 
+			{{ form_errors(form) }}
+
 			{{ form_row(form.firstName) }}
 			{{ form_row(form.middleNames) }}
 			{{ form_row(form.lastName) }}
@@ -70,7 +72,7 @@
 			{{ form_row(form.parentsRelation.firstPerson) }}
 			{{ form_row(form.parentsRelation.secondPerson) }}
 
-			{{ form_rest(form) }}
+			{{ form_widget(form._token) }}
 
 			<div class="form-group">
 				<div class="col-sm-8 col-sm-offset-4">
