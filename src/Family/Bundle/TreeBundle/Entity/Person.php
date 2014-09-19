@@ -242,6 +242,32 @@ class Person
     }
 
     /**
+     * Get surName
+     *
+     * @return string 
+     */
+    public function getFullName()
+    {
+        $fullName = $this->getFirstName() . ' ';
+        if ($this->surName != null)
+            $fullName .= '"' . $this->surName . '" ';
+        if ($this->middleNames != null)
+            $fullName .= $this->middleNames . ' ';
+        $fullName = $fullName . $this->getLastName();
+
+        if ($this->birthDate or $this->deathDate) {
+            $birthDate = " -";
+            $deathDate = "- ";
+            if ($this->birthDate)
+                $birthDate = $this->birthDate->format("d/m/Y");
+            if ($this->deathDate)
+                $deathDate = $this->deathDate->format("d/m/Y");
+                $fullName .= " (" . $birthDate . " | " . $deathDate . ")";
+        }
+        return $fullName;
+    }
+
+    /**
      * Set sex
      *
      * @param string $sex

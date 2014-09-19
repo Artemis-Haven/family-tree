@@ -11,7 +11,7 @@
 {% block principal %}
 	<div class="listOfFamilyMembers">
 	{% for person in persons %}
-		<a href="{{ path('family_main_person', {'id': person.id}) }}">{{person}}</a><br>
+		<a href="{{ path('family_main_person', {'id': person.id}) }}" title='{{person.fullName}}'>{{person}}</a><br>
 	{% endfor %}
 	</div>
 

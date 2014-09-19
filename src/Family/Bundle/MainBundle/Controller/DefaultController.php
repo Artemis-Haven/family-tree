@@ -223,6 +223,9 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if ($form->get('isAlive')->getData() == false) {
+                $person->setDeathDate(null);
+            }
             $relations = $form->get('relations')->getData();
             foreach ($relations as $relation) {
                 if ($relation->getSecondPerson() == null) {
