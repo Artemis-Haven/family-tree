@@ -161,11 +161,7 @@ class Person
      */
     public function getFirstName()
     {
-        if ($this->firstName != null) {
-            return $this->firstName;
-        } else {
-            return "-";
-        }
+        return $this->firstName;
     }
 
     /**
@@ -211,11 +207,7 @@ class Person
      */
     public function getLastName()
     {
-        if ($this->lastName != null) {
-            return $this->lastName;
-        } else {
-            return "-";
-        }
+        return $this->lastName;
     }
 
     /**
@@ -615,11 +607,21 @@ class Person
 
     public function __toString()
     {
-        if ($this->surName != null) {
-            return $this->firstName . ' "' . $this->surName . '" '. $this->lastName;
+        $name = "";
+        if ($this->firstName != null) {
+            $name = $this->firstName . " ";
         } else {
-            return $this->firstName . ' '. $this->lastName;
+            $name = "- ";
         }
+        if ($this->surName != null) {
+            $name .= '"' . $this->surName . '" ';
+        }
+        if ($this->lastName != null) {
+            $name .= $this->lastName;
+        } else {
+            $name .= "-";
+        }
+        return $name;
     }
 
 }

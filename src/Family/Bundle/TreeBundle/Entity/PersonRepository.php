@@ -86,18 +86,26 @@ class PersonRepository extends EntityRepository
 	        ->setParameter('dd', $person->getDeathDate())*/;
 	}
 
-	public function getPotentialParentsQB($id)
+	public function getPotentialParentsQB($personId, $familyId)
 	{
-		$person = $this->createQueryBuilder('p')
-	        ->where('p.id = :id')
-	        ->setParameter('id', $id)
-	        ->getQuery()->getSingleResult();
+		if($personId == null) {
+	        return $this->createQueryBuilder('p')
+		        ->andWhere('p.family = :family')
+		        ->setParameter('family', $familyId);
+		} else {
+			if ($familyId == null) {
+				$person = $this->createQueryBuilder('p')
+			        ->where('p.id = :id')
+			        ->setParameter('id', $personId)
+			        ->getQuery()->getSingleResult();
+			    $familyId = $person->getFamily()->getId();
+			}
 
-        return $this->createQueryBuilder('p')
-	        ->where('p.id != :id')
-	        ->andWhere('p.id != :id')
-	        ->andWhere('p.family = :family')
-	        ->setParameter('id', $id)
-	        ->setParameter('family', $person->getFamily()->getId());
+	        return $this->createQueryBuilder('p')
+		        ->andWhere('p.id != :id')
+		        ->andWhere('p.family = :family')
+		        ->setParameter('id', $personId)
+		        ->setParameter('family', $familyId);
+		}
 	}
 }

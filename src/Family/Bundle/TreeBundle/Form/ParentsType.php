@@ -10,10 +10,13 @@ use Family\Bundle\TreeBundle\Entity\Relation;
 
 class ParentsType extends AbstractType
 {    
-    private $id;
+    private $personId;
 
-    public function __construct($id) {
-        $this->id = $id;
+    private $familyId;
+
+    public function __construct($personId, $familyId) {
+        $this->personId = $personId;
+        $this->familyId = $familyId;
     }
 
     /**
@@ -22,20 +25,21 @@ class ParentsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $id = $this->id;
+        $personId = $this->personId;
+        $familyId = $this->familyId;
         $builder
             ->add('firstPerson', 'entity', array(
                 'class' => 'FamilyTreeBundle:Person', 
-                'query_builder' => function(PersonRepository $er) use ($id){
-                    return $er->getPotentialParentsQB($id); },
+                'query_builder' => function(PersonRepository $er) use ($personId, $familyId){
+                    return $er->getPotentialParentsQB($personId, $familyId); },
                 'label' => 'Parent 1',
                 'empty_value' => 'Sélectionnez le premier parent :',
                 'required' => false
             ))
             ->add('secondPerson', 'entity', array(
                 'class' => 'FamilyTreeBundle:Person', 
-                'query_builder' => function(PersonRepository $er) use ($id){
-                    return $er->getPotentialParentsQB($id); },
+                'query_builder' => function(PersonRepository $er) use ($personId, $familyId){
+                    return $er->getPotentialParentsQB($personId, $familyId); },
                 'label' => 'Parent 2',
                 'empty_value' => 'Sélectionnez le second parent :',
                 'required' => false

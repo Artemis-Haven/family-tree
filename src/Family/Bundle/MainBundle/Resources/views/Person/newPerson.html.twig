@@ -27,6 +27,13 @@
 			{{ form_row(form.deathDate) }}
 			</div>
 			{{ form_row(form.notes) }}
+			
+			<div class="h-separ"></div>
+
+			<h4 class="text-center">Parents</h4>
+
+			{{ form_row(form.parentsRelation.firstPerson) }}
+			{{ form_row(form.parentsRelation.secondPerson) }}
 
 			{{ form_rest(form) }}
 

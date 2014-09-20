@@ -17,11 +17,11 @@ class PersonType extends AbstractType
     {
         $isAlive = ($options['data']->getDeathDate() != null);
         $lastName = $options['data']->getSex() == 'F' ? 'Nom de jeune fille' : 'Nom de famille';
-        $id = $options['data']->getId();
+        $personId = $options['data']->getId();
         $builder
             ->add('firstName', 'text', array(
                 'label'    => 'Prénom',
-                'required' => false
+                'required' => false,
             ))
             ->add('middleNames', 'text', array(
                 'label'    => 'Autres prénoms',
@@ -60,13 +60,13 @@ class PersonType extends AbstractType
             ));
             if ($options['withMates']) {
                 $builder->add('relations', 'collection', array(
-                    'type' => new MateType($id), 
+                    'type' => new MateType($personId), 
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
                 ));
             }
-            $builder->add('parentsRelation',  new ParentsType($id));
+            $builder->add('parentsRelation',  new ParentsType($personId, $options['familyId']));
     }
     
     /**
@@ -76,7 +76,8 @@ class PersonType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Family\Bundle\TreeBundle\Entity\Person',
-            'withMates'  => false
+            'withMates'  => false,
+            'familyId'  => null
         ));
     }
 

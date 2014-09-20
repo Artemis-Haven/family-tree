@@ -254,7 +254,9 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find Family entity.');
         }
         $person = new Person();
-        $form = $this->createForm(new PersonType(), $person);
+        $form = $this->createForm(new PersonType(), $person, array(
+            'familyId' => $family->getId()
+        ));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
