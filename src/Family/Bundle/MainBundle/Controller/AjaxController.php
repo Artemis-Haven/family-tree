@@ -4,6 +4,7 @@ namespace Family\Bundle\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class AjaxController extends Controller
@@ -42,6 +43,34 @@ class AjaxController extends Controller
             $em->flush();
         }
         return new Response("");
+    }
+
+    public function familySortAction($id)
+    {
+        $request = $this->container->get('request');
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $sort = $request->request->get('sort');
+            $persRepo = $em->getRepository('FamilyTreeBundle:Person');
+
+            if ($sort == "firstName") {
+                $persons = $persRepo->findByFamilyOrderedByFirstName($id);
+            } else if ($sort == "birthDate") {
+                $persons = $persRepo->findByFamilyOrderedByBirthDate($id);
+            } else {
+                $persons = $persRepo->findByFamilyOrderedByName($id);
+            }
+
+            $result = array();
+            foreach ($persons as $p) {
+                $item['name'] = $p->__toString();
+                $item['fullName'] = $p->getFullName();
+                $item['url'] = $this->generateUrl('family_main_person', array('id' => $p->getId()));;
+                $result[] = $item;
+            }
+        }
+        return new JsonResponse($result);
     }
 
 }

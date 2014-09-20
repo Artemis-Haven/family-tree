@@ -5,3 +5,9 @@ family_main_cookie_hideSidebar:
 family_main_relation_delete:
     pattern: /relation/delete
     defaults: { _controller: FamilyMainBundle:Ajax:deleteRelation }
+
+family_main_family_sort:
+    pattern:  /famille/{id}/sort
+    defaults: { _controller: FamilyMainBundle:Ajax:familySort }
+    requirements:
+        id:  \d+

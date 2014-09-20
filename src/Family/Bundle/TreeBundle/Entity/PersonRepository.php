@@ -22,7 +22,7 @@ class PersonRepository extends EntityRepository
         return $query->getResult();
 	}
 
-	public function findByFamilyOrderedBySurname($familyId)
+	public function findByFamilyOrderedByFirstname($familyId)
     {
         $query = $this->createQueryBuilder('p')
 	        ->where('p.family = :id')

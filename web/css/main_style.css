@@ -216,13 +216,17 @@ header.titre .menu > *:hover {
 	================ Page Famille ================
  */
 
-.principal .listOfFamilyMembers {
+#listOfFamilyMembers {
 	-moz-column-count: 3;
 	-moz-column-gap: 5px;
 	-webkit-column-count: 3;
 	-webkit-column-gap: 5px;
 	column-count: 3;
 	column-gap: 5px;
+}
+
+#familyMembersFiltering {
+	margin: 10px 0;
 }
 
 /*

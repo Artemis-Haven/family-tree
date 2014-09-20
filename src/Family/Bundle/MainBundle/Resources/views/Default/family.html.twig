@@ -9,10 +9,54 @@
 {% endblock %}
 
 {% block principal %}
-	<div class="listOfFamilyMembers">
-	{% for person in persons %}
-		<a href="{{ path('family_main_person', {'id': person.id}) }}" title='{{person.fullName}}'>{{person}}</a><br>
-	{% endfor %}
+	<div class="accesArbres">
+		(Accès aux arbres généalogiques)
 	</div>
+	
+	<div class="h-separ"></div>
+	
+	<form id="familyMembersFiltering" class="form-inline" role="form">
+		<label for="sort_select">Trier par :</label>
+		<select id="sort_select" class="form-control">
+			<option value="lastName">Nom de famille</option>
+			<option value="firstName">Prénom</option>
+			<option value="birthDate">Date de naissance</option>
+		</select> 
+		<label for="search_input" style="margin-left:20px;">Filtrer :</label>
+		<input type="text" class="form-control" id="search_input">
+	</form>
+	<ul id="listOfFamilyMembers">
+	{% for person in persons %}
+		<li><a href="{{ path('family_main_person', {'id': person.id}) }}" title='{{person.fullName}}'>{{person}}</a></li>
+	{% endfor %}
+	</ul>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/jquery.fastLiveFilter.js') }}"></script>
+<script type="text/javascript">
+	$(function() {
+        $('#search_input').fastLiveFilter('#listOfFamilyMembers');
+    });
+
+    $("#sort_select").change(function() {
+    	value = $(this).val();
+		$.ajax({
+			type: "POST",
+			url: "{{ path('family_main_family_sort', {'id': family.id}) }}",
+			data: { sort: value },
+			cache: false,
+			success: function(data) {
+				$('#listOfFamilyMembers').empty();
+				for(i=0 ; i<data.length ; i++){
+					$('#listOfFamilyMembers').append("<li><a href='"+data[i]['url']+"' title='"+data[i]['fullName']+"'>"+data[i]['name']+"</a></li>")
+				}		
+    	    	$('#search_input').fastLiveFilter('#listOfFamilyMembers');
+			}
+		});
+    });
+	
+</script>
 {% endblock %}
