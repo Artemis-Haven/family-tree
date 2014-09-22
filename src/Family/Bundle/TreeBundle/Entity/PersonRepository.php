@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class PersonRepository extends EntityRepository
 {
+	private $alphabet = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+
 	public function findByFamilyOrderedByName($familyId)
     {
         $query = $this->createQueryBuilder('p')
@@ -36,7 +38,7 @@ class PersonRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('p')
 	        ->where('p.family = :id')
-	        ->orderBy('p.birthDate', 'ASC')
+	        ->orderBy('p.birthDate, p.deathDate, p.lastName, p.firstName', 'ASC')
 	        ->setParameter('id', $familyId)
 	        ->getQuery();
         return $query->getResult();
@@ -107,5 +109,30 @@ class PersonRepository extends EntityRepository
 		        ->setParameter('id', $personId)
 		        ->setParameter('family', $familyId);
 		}
+	}
+
+	public function findWithNameContaining($search)
+	{
+		$terms = array_slice(explode(" ", $search), 0, 5);
+        $query = $this->getNamesForOneTerm($terms);
+    	for ($i=0; $i < count($terms) ; $i++) { 
+    		$query->setParameter('search'.$this->alphabet[$i+1], '%'.$terms[$i].'%');
+    	}
+    	//print_r($query->getDQL());
+        return $query->setMaxResults(10)->getQuery()->getResult();
+	}
+
+	private function getNamesForOneTerm($terms)
+	{
+		$c = $this->alphabet[count($terms)];
+        $query = $this->createQueryBuilder('p'.$c)
+	        ->where('p'.$c.'.firstName LIKE :search'.$c)
+	        ->orWhere('p'.$c.'.lastName LIKE :search'.$c)
+	        ->orWhere('p'.$c.'.middleNames LIKE :search'.$c)
+	        ->orWhere('p'.$c.'.surName LIKE :search'.$c);
+	    if (count($terms) > 1) {
+	    	$query->andWhere('p'.$c.' in ('.$this->getNamesForOneTerm(array_slice ($terms, 1))->getDQL().')');
+	    }
+	    return $query;
 	}
 }

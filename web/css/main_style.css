@@ -65,8 +65,37 @@ a:visited, button.btn:visited { color: #572F0E; }
 	background-color: #CDB98C;
 }
 
+/*
+	Sidebar : Moteur de recherche
+ */
+
+#sidebarSearchForm > .ui-helper-hidden-accessible {
+	display: none;
+}
+
 .sidebarSearchFormFocus {
 	background-color: #BFAB7E !important;
+}
+
+.sidebarSearchList {
+	z-index: 50;
+	max-width: 250px;
+	background-color: #F3EEE7;
+	position: fixed;
+	margin-left: 10px;
+	-webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 2px 8px 0 rgba(0,0,0,0.7);
+}
+
+.sidebarSearchList li a {
+	display: block;
+	padding: 5px 10px;
+}
+
+.sidebarSearchList li a:hover, .sidebarSearchList li a:focus, .sidebarSearchList li a:active {
+	text-decoration: none;
+	background-color: rgba(130, 64, 59, 1);
+	color: #F7F7F7;
 }
 
 .sidebar > .nav li a {

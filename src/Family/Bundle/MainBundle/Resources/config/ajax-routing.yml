@@ -11,3 +11,7 @@ family_main_family_sort:
     defaults: { _controller: FamilyMainBundle:Ajax:familySort }
     requirements:
         id:  \d+
+
+family_main_sidebar_search:
+    pattern:  /sidebar/search
+    defaults: { _controller: FamilyMainBundle:Ajax:sidebarSearch }

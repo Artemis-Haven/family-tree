@@ -73,4 +73,24 @@ class AjaxController extends Controller
         return new JsonResponse($result);
     }
 
+    public function sidebarSearchAction()
+    {
+        $request = $this->container->get('request');
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $search = $request->request->get('search');
+            $persons = $em->getRepository('FamilyTreeBundle:Person')->findWithNameContaining($search);
+
+            $result = array();
+            foreach ($persons as $p) {
+                $item['value'] = $p->__toString();
+                $item['fullName'] = $p->getFullName();
+                $item['url'] = $this->generateUrl('family_main_person', array('id' => $p->getId()));;
+                $result[] = $item;
+            }
+            return new JsonResponse($result);
+        }
+    }
+
 }
