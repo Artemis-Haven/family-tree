@@ -2,6 +2,12 @@ family_main_homepage:
     pattern:  /
     defaults: { _controller: FamilyMainBundle:Default:index }
 
+family_main_search:
+    pattern:  /recherche
+    defaults: { _controller: FamilyMainBundle:Default:search }
+    requirements:
+        _method:  POST
+
 family_main_allFamilies:
     pattern:  /familles
     defaults: { _controller: FamilyMainBundle:Default:allFamilies }

@@ -111,18 +111,20 @@ class PersonRepository extends EntityRepository
 		}
 	}
 
-	public function findWithNameContaining($search)
+	public function findWithNameContaining($search, $familyId = null, $sameFamily = true)
 	{
 		$terms = array_slice(explode(" ", $search), 0, 5);
-        $query = $this->getNamesForOneTerm($terms);
+        $query = $this->getNamesForOneTerm($terms, $familyId, $sameFamily);
     	for ($i=0; $i < count($terms) ; $i++) { 
     		$query->setParameter('search'.$this->alphabet[$i+1], '%'.$terms[$i].'%');
     	}
-    	//print_r($query->getDQL());
+    	if ($familyId != null) {
+    		$query->setParameter('familyId', $familyId);
+    	}
         return $query->setMaxResults(10)->getQuery()->getResult();
 	}
 
-	private function getNamesForOneTerm($terms)
+	private function getNamesForOneTerm($terms, $familyId, $sameFamily)
 	{
 		$c = $this->alphabet[count($terms)];
         $query = $this->createQueryBuilder('p'.$c)
@@ -130,8 +132,17 @@ class PersonRepository extends EntityRepository
 	        ->orWhere('p'.$c.'.lastName LIKE :search'.$c)
 	        ->orWhere('p'.$c.'.middleNames LIKE :search'.$c)
 	        ->orWhere('p'.$c.'.surName LIKE :search'.$c);
+	    if ($familyId != null) {
+	    	if ($sameFamily) {
+	    		$query->andWhere('p'.$c.'.family = :familyId');
+	    	} else {
+	    		$query->andWhere('p'.$c.'.family <> :familyId');
+	    	}
+	    }
 	    if (count($terms) > 1) {
-	    	$query->andWhere('p'.$c.' in ('.$this->getNamesForOneTerm(array_slice ($terms, 1))->getDQL().')');
+	    	$query->andWhere('p'.$c.' in ('
+	    		.$this->getNamesForOneTerm(array_slice ($terms, 1), $familyId, $sameFamily)->getDQL()
+	    		.')');
 	    }
 	    return $query;
 	}

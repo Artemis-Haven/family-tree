@@ -303,4 +303,22 @@ class DefaultController extends Controller
             'form'        => $form->createView(),
         ));
     }
+
+    public function searchAction()
+    {
+        $request = $this->container->get('request');
+        $searchTerms = $request->request->get('searchTerms');
+        if (!$searchTerms) {
+            throw $this->createNotFoundException('Unable to find search terms.');
+        }
+        $persRepo = $this->getDoctrine()->getEntityManager()->getRepository('FamilyTreeBundle:Person');
+        $personsInFamily = $persRepo->findWithNameContaining($searchTerms, $this->getUser()->getPerson()->getFamily()->getId(), true);
+        $personsOutOfFamily = $persRepo->findWithNameContaining($searchTerms, $this->getUser()->getPerson()->getFamily()->getId(), false);
+
+        return $this->render('FamilyMainBundle:Default:search.html.twig', array(
+            'personsInFamily'      => $personsInFamily,
+            'personsOutOfFamily'      => $personsOutOfFamily,
+            'searchTerms'  => $searchTerms
+        ));
+    }
 }

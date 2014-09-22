@@ -118,7 +118,15 @@
                 '<a href="'+item.url+'" title=\''+item.fullName+'\'>' + item.value + '</span></a>')
                 .appendTo(list);
         };
+        $('#sidebarSearchForm > input').data("ui-autocomplete")._renderMenu = function (ul, items) {
+            var that = this;
+            $.each( items, function( index, item ) {
+                that._renderItemData( ul, item );
+            });
+            ul.append("<li><button type='submit' form='sidebarSearchForm' class='btn-link'><em>Afficher tout...</em></button></li>")
+        }
         $('#sidebarSearchForm > input').autocomplete("widget").addClass('sidebarSearchList');
+
 
     </script>
 {% endblock %}

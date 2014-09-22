@@ -1,0 +1,26 @@
+{% extends 'FamilyMainBundle:Default:layout.html.twig' %}
+
+{% block titre %}
+	Recherche
+{% endblock %}
+
+{% block soustitre %}
+Résultats de la recherche : <em style="color:gray;">{{searchTerms}}</em>
+{% endblock %}
+
+{% block principal %}
+<article id="searchResults">
+	<h4>Dans votre famille :</h4>
+	<ul>
+	{% for person in personsInFamily %}
+		<li><a href="{{ path('family_main_person', {'id': person.id}) }}" title='{{person.fullName}}'>{{person}}</a></li>
+	{% endfor %}
+	</ul>
+	<h4>Ailleurs :</h4>
+	<ul>
+	{% for person in personsOutOfFamily %}
+		<li><a href="{{ path('family_main_person', {'id': person.id}) }}" title='{{person.fullName}}'>{{person}}</a></li>
+	{% endfor %}
+	</ul>
+</article>
+{% endblock %}

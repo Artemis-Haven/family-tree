@@ -12,6 +12,10 @@ body {
 	margin-right: auto;
 }
 
+em {
+	font-style: italic;
+}
+
 a, button.btn, input.btn[type="submit"] { color: #773F1E; }
 a:hover, a:focus, button.btn:hover, button.btn:focus { color: #572F0E; }
 a:visited, button.btn:visited { color: #572F0E; }
@@ -87,9 +91,10 @@ a:visited, button.btn:visited { color: #572F0E; }
 	box-shadow: 0 2px 8px 0 rgba(0,0,0,0.7);
 }
 
-.sidebarSearchList li a {
+.sidebarSearchList li a, .sidebarSearchList .btn-link {
 	display: block;
 	padding: 5px 10px;
+	color: #773F1E;
 }
 
 .sidebarSearchList li a:hover, .sidebarSearchList li a:focus, .sidebarSearchList li a:active {
@@ -380,6 +385,19 @@ header.titre .menu > *:hover {
 .namesCloudContainer:hover {
 	background-color: #E3DED7;
 	cursor: pointer;
+}
+
+/*
+	================ Page Recherche ================
+ */
+
+#searchResults ul {
+	-moz-column-count: 3;
+	-moz-column-gap: 5px;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 5px;
+	column-count: 3;
+	column-gap: 5px;
 }
 
 /*
