@@ -1,170 +1,60 @@
-Symfony Standard Edition
+Arbres généalogiques
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+Ce projet est une site web concu avec le framework php **Symfony 2**.
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+Il propose de créer des familles, de saisir les membres, leurs informations et leurs relations, afin de générer un arbre généalogique. Chacun peut s'inscrire sur le site et gérer sa propre famille, mais il est aussi possible d'inviter ses proches à rejoindre son propre arbre afin qu'ils l'agrémentent de leurs connaissances. Il pourront à leur tour inviter leurs proches et ainsi l'arbre s'élargira de plus en plus.
 
-1) Installing the Standard Edition
+Présentation
 ----------------------------------
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+_Le site n'est actuellement pas complètement opérationnel, il manque par exemple plusieurs éléments graphiques à divers endroits._
 
-### Use Composer (*recommended*)
+###Inscription
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+L'utilisateur non connecté est amené à se connecter ou se **créer un compte**. Il a néanmoins accès aux familles qui ont été définies comme "publiques" (dans les captures d'écran qui suivent, la famille de Harry Potter est publique).
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+Après l'inscription, il peut soit créer son arbre généalogique, soit entrer un code d'accès pour en **rejoindre une existante**.
 
-    curl -s http://getcomposer.org/installer | php
+###Les familles
 
-Then, use the `create-project` command to generate a new Symfony application:
+Dans l'onglet _Toutes les familles_, chaque famille dont on a l'accès est représentée par un **nuage de noms** de famille, en fonction de la fréquence d'apparition du nom dans la famille.
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+![](doc/screenshot-familles.png "Capture : Toutes les familles")
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+L'onglet _Ma famille_ affiche des liens vers tous les membres de la famille, ainsi que vers les arbres ascendant ou descendant, centrés sur la fiche de la personne connectée.
 
-### Download an Archive File
+Il est possible de **trier** les personnes par nom, prénom ou date de naissance, et de **filtrer** les noms et prénoms affichés.
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+![](doc/screenshot-famille-filtre.png "Capture : Ma famille")
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+###Moteur de recherche
 
-    php composer.phar install
+Un moteur de recherche permet de trouver les personnes selon leurs noms, prénoms, seconds prénoms ou surnoms. On peut rechercher **plusieurs mots en même temps** pour affiner une recherche.
 
-2) Checking your System Configuration
--------------------------------------
+![](doc/screenshot-recherche.png "Capture : Moteur de recherche")
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+###Les fiches de personnes
 
-Execute the `check.php` script from the command line:
+Une fiche montre les différentes informations sur une personne, ainsi que des liens vers ses parents, ses frères et soeurs, ses relations et ses enfants.
 
-    php app/check.php
+On peut aussi **uploader des documents** (photos, actes de naissance, de mariage, etc.) qui seront associés à cette personne.
 
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
+![](doc/screenshot-fiche.png "Capture : Fiche de Harry Potter")
 
-Access the `config.php` script from a browser:
+On peut ajouter dynamiquement des relations (ex: mariage) à une personne et définir ses parents. Ce sont ces informations qui permettront de générer l'arbre.
 
-    http://localhost/path-to-project/web/config.php
+![](doc/screenshot-modifier-personne.png "Capture : Edition de la fiche de Harry Potter")
 
-If you get any warnings or recommendations, fix them before moving on.
+###Arbres généalogiques
 
-3) Browsing the Demo Application
---------------------------------
+On peut afficher les **arbres généalogiques ascendant ou descendant** à partir de n'importe quelle personne.
 
-Congratulations! You're now ready to use Symfony.
+Voici l'arbre ascendant très simple d'Albus Potter, le deuxième fils de Harry et Ginny.
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+![](doc/screenshot-arbre-asc.png "Capture : Arbre ascendant de Albus Potter")
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+Installation
+----------------------------------
 
-To see a real-live Symfony page in action, access the following page:
-
-    web/app_dev.php/demo/hello/Fabien
-
-4) Getting started with Symfony
--------------------------------
-
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
-
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
-
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
-
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
-
-  * delete the `src/Acme` directory;
-
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
-
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * empty the `security.yml` file or tweak the security configuration to fit
-    your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.4/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.4/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.4/index.html
-[6]:  http://symfony.com/doc/2.4/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.4/book/doctrine.html
-[8]:  http://symfony.com/doc/2.4/book/templating.html
-[9]:  http://symfony.com/doc/2.4/book/security.html
-[10]: http://symfony.com/doc/2.4/cookbook/email.html
-[11]: http://symfony.com/doc/2.4/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.4/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.4/bundles/SensioGeneratorBundle/index.html
+[Cliquez ici](doc/installation "Installation") pour accéder à la page d'aide à l'installation.
