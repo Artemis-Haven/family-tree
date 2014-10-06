@@ -35,6 +35,11 @@ class PersonType extends AbstractType
                 'label'    => 'Surnoms ou titres',
                 'required' => false
             ))
+            ->add('sex', 'choice', array(
+                'label'    => 'Sexe',
+                'choices'  => array('M' => 'Masculin', 'F' => 'Féminin'),
+                'required' => false
+            ))
             ->add('birthDate', 'date', array(
                 'input'    => 'datetime',
                 'widget'   => 'choice',
@@ -56,11 +61,11 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('notes', 'textarea', array(
-                'required' => false, 
+                'required' => false,
             ));
             if ($options['withMates']) {
                 $builder->add('relations', 'collection', array(
-                    'type' => new MateType($personId), 
+                    'type' => new MateType($personId),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
@@ -68,7 +73,7 @@ class PersonType extends AbstractType
             }
             $builder->add('parentsRelation',  new ParentsType($personId, $options['familyId']));
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

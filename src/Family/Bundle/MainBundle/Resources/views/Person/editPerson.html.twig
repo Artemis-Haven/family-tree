@@ -15,10 +15,10 @@
 {% block principal %}
 	<article id="editPerson">
 
-		<form class="form-horizontal" role="form" 
+		<form class="form-horizontal" role="form"
 			action="{{  path('family_main_person_edit', {'id' : person.id} ) }}"
 			method="post" {{ form_enctype(form) }}>
-			
+
 			<h4 class="text-center">Informations générales</h4>
 
 			{{ form_errors(form) }}
@@ -27,13 +27,14 @@
 			{{ form_row(form.middleNames) }}
 			{{ form_row(form.lastName) }}
 			{{ form_row(form.surName) }}
+			{{ form_row(form.sex) }}
 			{{ form_row(form.birthDate) }}
 			{{ form_row(form.isAlive) }}
 			<div id="deathDateBlock" {% if not person.deathDate %} style="display:none;" {% endif %}>
 			{{ form_row(form.deathDate) }}
 			</div>
 			{{ form_row(form.notes) }}
-			
+
 			<div class="h-separ"></div>
 
 			<h4 class="text-center">Relations</h4>
@@ -41,10 +42,10 @@
 			{{ form_errors(form.relations) }}
 
 			<ul id="relation-list" data-prototype="{{ form_widget(form.relations.vars.prototype) | e }}">
-				{% for relation in form.relations %}	
+				{% for relation in form.relations %}
 				{% spaceless %}
 				<li id="relation-{{relation.vars.value.id}}">
-					<button class="pull-right btn btn-link glyphicon glyphicon-remove" type="button" 
+					<button class="pull-right btn btn-link glyphicon glyphicon-remove" type="button"
 					title="Supprimer" id="remove-relation-btn-{{loop.index0}}" onclick="removeRelation(this);"></button>
 					{% if relation.firstPerson is defined %}
 					{{ form_row(relation.firstPerson) }}
@@ -114,7 +115,7 @@
 					url: "{{ path('family_main_relation_delete') }}",
 					data: 'relationId=' + id,
 					cache: false,
-				}); 
+				});
 			};
 			$(obj).parent().next().remove();
 			$(obj).parent().next().remove();
