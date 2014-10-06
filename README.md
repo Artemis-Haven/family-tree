@@ -57,4 +57,4 @@ Voici l'arbre ascendant très simple d'Albus Potter, le deuxième fils de Harry 
 Installation
 ----------------------------------
 
-[Cliquez ici](doc/installation "Installation") pour accéder à la page d'aide à l'installation.
+[Cliquez ici](doc/installation.md "Installation") pour accéder à la page d'aide à l'installation.
